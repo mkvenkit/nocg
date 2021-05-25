@@ -2,6 +2,8 @@
 
 Exploratory programs on various topics related to 3D computer graphics.
 
+By: Mahesh Venkitachalam (electronut.in)
+
 ## Examples 
 
 | **Name** | **Description**|
