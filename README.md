@@ -8,7 +8,7 @@ By: Mahesh Venkitachalam ([electronut.in][1])
 
 | **Name** | **Description**|
 |---|---|
-| ![shaderjig](media/shaderjig_tn.png)[2]| [shaderjig][1]: A simple Python + OpenGL setup to play with fragment shaders.|
+| [![shaderjig](media/shaderjig_tn.png)][2]| [shaderjig][1]: A simple Python + OpenGL setup to play with fragment shaders.|
 
 
 
