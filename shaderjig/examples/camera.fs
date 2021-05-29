@@ -7,8 +7,8 @@ uniform float iTime;
 out vec4 fragColor;
 
 // ray marching constants 
-#define MAX_STEPS 1000
-#define MAX_DIST 1000
+#define MAX_STEPS 100
+#define MAX_DIST 100
 #define SURF_DIST 0.01
 
 #define M_PI 3.1415926535897932384626433832795
@@ -50,16 +50,16 @@ float sdfTorus(vec3 p, vec2 r)
 
 float getDist(vec3 p)
 {
-  float dist = sdSphere(p, 0.5);
+  float d_sph = sdSphere(p, 0.75);
 
   // (sin(t), cos(t))
   vec2 c = vec2(0.49999999999999994, 0.8660254037844387);
   float d_cone = sdCone(p, c, 1.5);
-  float d_cyl = sdCappedCylinder(p, 1.5, 0.1);
-  float d_torus = sdfTorus(p, vec2(1, 0.25));
+  float d_cyl = sdCappedCylinder(p, 0.1, 1.75);
+  float d_torus = sdfTorus(p, vec2(1, 0.2));
   // return min 
   //return dist; 
-  return (min(min(d_cyl, d_cone), d_torus));
+  return min(min(min(d_cyl, d_cone), d_torus), d_sph);
 }
 
 float rayMarch(vec3 ro, vec3 rd)
@@ -143,14 +143,18 @@ void main()
     float theta_deg = 10;
     float theta = theta_deg * M_PI / 360.0;
     // calculate eye distance from screen
-    float eye_dist = W / (2 * tan(theta));    
+    //float eye_dist = W / (2 * tan(theta));    
 
     // --------------------
     // ray marching:
     // --------------------
 
-    vec3 ps = vec3(uv, 10);
-    vec3 ro = ps + eye_dist * vec3(0, 0, 1);
+    // set up ceneter of screen 
+    vec3 ps = vec3(uv, 0);
+    // set distance to eye 
+    float eye_dist = 2;
+    // set ray origin 
+    vec3 ro = ps + eye_dist * vec3(5, 5, 5);
     
     // ray direction 
     vec3 rd = normalize(ps - ro); 
