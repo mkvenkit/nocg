@@ -171,16 +171,18 @@ void main()
     // ray marching:
     // --------------------
     // set ray origin 
-    vec3 eye = vec3(0, 0, 5);
+    vec3 eye = vec3(0, -5, 0);
     // looking at?
     vec3 at = vec3(0, 0, 0);
     // look direction 
     vec3 dir = normalize(at - eye);
+    // set up vector 
+    vec3 up = vec3(0, 0, 1);
+
     // set distance from eye to screen center
     float c_dist = 2;
     vec3 center = eye + c_dist * dir;    
-    // set up vector 
-    vec3 up = vec3(0, 1, 0);
+    
     // get transformation matrix 
     mat4 M = getViewMatrix(center, dir, up);
     // transform center of screen to world space
