@@ -17,7 +17,7 @@ out vec4 fragColor;
 struct Surf
 {
     float d;  // distance
-    vec3 col; // color
+    vec3 c; // color
 };
 
 float sdCone( in vec3 p, in vec2 c, float h )
@@ -55,33 +55,58 @@ float sdfTorus(vec3 p, vec2 r)
   return d;
 }
 
-float getDist(vec3 p)
+// min based on distance
+Surf minSurf(Surf s1, Surf s2)
 {
-  float d_sph = sdSphere(p, 0.75);
-
-  // (sin(t), cos(t))
-  vec2 c = vec2(0.49999999999999994, 0.8660254037844387);
-  float d_cone = sdCone(p, c, 1.5);
-  float d_cyl = sdCappedCylinder(p, 0.1, 1.75);
-  float d_torus = sdfTorus(p, vec2(1, 0.2));
-  // return min 
-  //return dist; 
-  return min(min(min(d_cyl, d_cone), d_torus), d_sph);
+    if (s1.d < s2.d) {
+        return s1;
+    }
+    else {
+        return s2;
+    }
 }
 
-float rayMarch(vec3 ro, vec3 rd)
+Surf getDist(vec3 p)
 {
+  // sphere 
+  float d = sdSphere(p, 0.75);
+  Surf sph = Surf(d, vec3(1.0, 0.0, 0.0));
+
+  // cone 
+  // (sin(t), cos(t))
+  vec2 c = vec2(0.49999999999999994, 0.8660254037844387);
+  d = sdCone(p, c, 1.5);
+  Surf cone = Surf(d, vec3(0.0, 1.0, 0.0));
+
+  // cylinder 
+  d = sdCappedCylinder(p, 0.1, 1.75);
+  Surf cyl = Surf(d, vec3(1.0, 1.0, 0.0));
+
+  // torus
+  d = sdfTorus(p, vec2(1, 0.2));
+  Surf torus = Surf(d, vec3(0.0, 1.0, 1.0));
+
+  // return min 
+  //return dist; 
+  return minSurf(minSurf(minSurf(cyl, cone), torus), sph);
+}
+
+Surf rayMarch(vec3 ro, vec3 rd)
+{
+  Surf hit;
   float d0 = 0.0;
 
   for (int i = 0; i < MAX_STEPS; i++) {
     vec3 p = ro + d0*rd;
-    float ds = getDist(p);
+    hit = getDist(p);
+    float ds = hit.d;
     d0 += ds;
-    if (d0 > MAX_DIST || ds < SURF_DIST)
+    if (d0 > MAX_DIST || ds < SURF_DIST) 
       break;
   }
 
-  return d0;    
+  hit.d = d0;
+  return hit;    
 }
 
 /* 
@@ -92,14 +117,14 @@ float rayMarch(vec3 ro, vec3 rd)
 vec3 getNormal(vec3 p)
 {
   // get distance 
-  float d = getDist(p);
+  float d = getDist(p).d;
   
   // define epsilion
   vec2 e = vec2(0.01, 0.0);
 
-  vec3 n = vec3 (getDist(p + e.xyy) - getDist(p - e.xyy),
-                 getDist(p + e.yxy) - getDist(p - e.yxy),
-                 getDist(p + e.yyx) - getDist(p - e.yyx));
+  vec3 n = vec3 (getDist(p + e.xyy).d - getDist(p - e.xyy).d,
+                 getDist(p + e.yxy).d - getDist(p - e.yxy).d,
+                 getDist(p + e.yyx).d - getDist(p - e.yyx).d);
   // normalize vector 
   return normalize(n);
 }
@@ -125,28 +150,6 @@ mat4 getViewMatrix(vec3 c, vec3 at, vec3 u)
     );
 
     return T * transpose(R);
-}
-
-mat4 getViewMatrix2(vec3 c, vec3 dir, vec3 u)
-{
-    vec3 side = normalize(cross(u, dir));
-    vec3 up = normalize(cross(dir, side));
-
-    mat4 T = mat4 (
-        vec4(1.0, 0.0, 0.0, 0.0),
-        vec4(0.0, 1.0, 0.0, 0.0),
-        vec4(0.0, 0.0, 1.0, 0.0),
-        vec4(c.x, c.y, c.z, 1.0)
-    );
-
-    mat4 R = mat4 (
-        vec4(side.x, up.x, dir.x, 0.0),
-        vec4(side.y, up.y, dir.y, 0.0),
-        vec4(side.z, up.z, dir.z, 0.0),
-        vec4(0.0, 0.0, 0.0, 1.0)
-    );
-
-    return T * R;
 }
 
 float getLight(vec3 p)
@@ -201,7 +204,7 @@ void main()
     // ray marching:
     // --------------------
     // set ray origin 
-    vec3 eye = vec3(5, 5, 5);
+    vec3 eye = vec3(2, 2, 2);
     // looking at?
     vec3 at = vec3(0, 0, 0);
     // look direction 
@@ -221,8 +224,9 @@ void main()
     // ray direction 
     vec3 ray_dir = normalize(cs - eye); 
     // use ray marching get distance to closest object
-    float d = rayMarch(eye, ray_dir);
+    Surf hit = rayMarch(eye, ray_dir);
 
+    float d = hit.d;
     // calculate the point on the surface
     vec3 p = eye + d * ray_dir;
     
@@ -230,7 +234,7 @@ void main()
     float dif = getLight(p);
     
     // color based on diffuse component
-    vec3 col = dif * vec3(1, 1, 1);
+    vec3 col = dif * hit.c;
 
     // set output color
     fragColor = vec4(col, 1.0);
