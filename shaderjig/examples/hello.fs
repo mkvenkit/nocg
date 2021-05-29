@@ -15,7 +15,8 @@ void main() {
 
   vec2 uv = (gl_FragCoord.xy - 0.5*iRes.xy) / iRes.y;
 
-  if (sin(10*M_PI*length(uv)) > 0.25) {
+  //if (sin(10*M_PI*length(uv)) > 0.25) {
+  if ((uv.x > 0.5) || (uv.y > 0.5)) {
     fragColor = c1;
   }
   else {

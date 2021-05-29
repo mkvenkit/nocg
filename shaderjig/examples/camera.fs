@@ -1,4 +1,4 @@
-// simple_scene.fs
+// camera.fs
 
 #version 410 core
 
@@ -6,25 +6,12 @@ uniform vec2 iRes;
 uniform float iTime;
 out vec4 fragColor;
 
+// ray marching constants 
 #define MAX_STEPS 1000
 #define MAX_DIST 1000
 #define SURF_DIST 0.01
 
 #define M_PI 3.1415926535897932384626433832795
-
-// SDF for torus 
-float sdfTorus(vec3 p, vec2 r)
-{
-  vec2 q = vec2(p.y, length(p.xz) - r.x);
-  float d = length(q) - r.y;
-  return d;
-}
-
-float sdPlane( vec3 p, vec3 n, float h )
-{
-  // n must be normalized
-  return dot(p,n) + h ;
-}
 
 float sdCone( in vec3 p, in vec2 c, float h )
 {
@@ -42,20 +29,37 @@ float sdCone( in vec3 p, in vec2 c, float h )
   return sqrt(d)*sign(s);
 }
 
+float sdCappedCylinder( vec3 p, float h, float r )
+{
+  vec2 d = abs(vec2(length(p.xz),p.y)) - vec2(h,r);
+  return min(max(d.x,d.y),0.0) + length(max(d,0.0));
+}
+
+float sdSphere( vec3 p, float s )
+{
+    return length(p)-s;
+}
+
+// SDF for torus 
+float sdfTorus(vec3 p, vec2 r)
+{
+  vec2 q = vec2(p.y, length(p.xz) - r.x);
+  float d = length(q) - r.y;
+  return d;
+}
+
 float getDist(vec3 p)
 {
-  // distance to plane
-  float pd = sdPlane(p, vec3(0, 0, 1), 0);
-
-  vec2 r = vec2(1, 0.25);
-  float td = sdfTorus(p, r);
+  float dist = sdSphere(p, 0.5);
 
   // (sin(t), cos(t))
   vec2 c = vec2(0.49999999999999994, 0.8660254037844387);
-  float cd = sdCone(p, c, 2);
-
+  float d_cone = sdCone(p, c, 1.5);
+  float d_cyl = sdCappedCylinder(p, 1.5, 0.1);
+  float d_torus = sdfTorus(p, vec2(1, 0.25));
   // return min 
-  return cd; //min(pd, td);
+  //return dist; 
+  return (min(min(d_cyl, d_cone), d_torus));
 }
 
 float rayMarch(vec3 ro, vec3 rd)
@@ -118,70 +122,50 @@ float getLight(vec3 p)
   return dif;
 }
 
+// camera FOV constants
 
-mat4 LookAt(vec3 eye, vec3 at, vec3 up)
+void main() 
 {
-  vec3 Z = normalize(at - eye);    
-  vec3 X = normalize(cross(Z, up));
-  vec3 Y = cross(X, Z);
+    // --------------------
+    // camera setup:
+    // --------------------
 
-  Z.xyz = -Z.xyz;
+    // width of window in world coordinates 
+    float W = 4.0;
+    // In world coordinates, uv is on the XY plane 
+    // centered at the origin, 
+    // with range (-W/2, -H/2) to (W/2, H/2)
+    // Where H = W * (iRes.y/iRes.x) 
+    vec2 uv = W*(gl_FragCoord.xy - 0.5*iRes.xy) / iRes.y;
+    
+    
+    // set FOV
+    float theta_deg = 10;
+    float theta = theta_deg * M_PI / 360.0;
+    // calculate eye distance from screen
+    float eye_dist = W / (2 * tan(theta));    
 
-  mat4 T = mat4(
-    vec4(1.0, 0.0, 0.0, 0.0),
-    vec4(0.0, 1.0, 0.0, 0.0),
-    vec4(0.0, 0.0, 1.0, 0.0),
-    vec4(-eye.x, -eye.y, -eye.z, 1.0)
-  );
+    // --------------------
+    // ray marching:
+    // --------------------
 
-  vec3 dir = normalize(at - eye);   
-  mat4 R = mat4(
-    vec4(X.x, Y.x, dir.x, 0.0),
-    vec4(X.y, Y.y, dir.y, 0.0),
-    vec4(X.z, Y.z, dir.z, 0.0),
-    vec4(0,   0,   0,     1.0)
-  );
+    vec3 ps = vec3(uv, 10);
+    vec3 ro = ps + eye_dist * vec3(0, 0, 1);
+    
+    // ray direction 
+    vec3 rd = normalize(ps - ro); 
+    // use ray marching get distance to closest object
+    float d = rayMarch(ro, rd);
 
-  mat4 viewMatrix =  T * R;
+    // calculate the point on the surface
+    vec3 p = ro + d * rd;
+    
+    // compute diffuse lighting
+    float dif = getLight(p);
+    
+    // color based on diffuse component
+    vec3 col = dif * vec3(1, 1, 1);
 
-  return viewMatrix;
-}
-
-mat4 g_vM;
-
-void main() {
-  // Get screen coordinates 
-  // Origin at center of screen, range is [-1, 1]
-  vec2 uv = 10.0*(gl_FragCoord.xy - 0.5*iRes.xy) / iRes.y;
-  
-  // get lookat matrix
-  vec3 eye = vec3(5, 5, 5);
-  vec3 at = vec3(0, 0, 0);
-  vec3 up = vec3(0, 1, 0);
-  g_vM = LookAt(eye, at, up);
-
-  // set up ray 
-  vec3 ro = vec3(6, 6, 6);     
-  
-  // pt on the screen positioned at the XY plane at Z=0
-  //vec3 ps = vec3(uv.x, 0.0, uv.y);  
-  //ps = (g_vM * vec4(ps.xyz, 1.0)).xyz;
-  
-  vec3 ps = vec3(uv.xy, 0.0);  
-  ps = (g_vM * vec4(ps.xyz, 1.0)).xyz;
-
-  vec3 rd = normalize(ps - ro); // ray direction 
-
-
-  float d = rayMarch(ro, rd);
-  vec3 p = ro + d * rd;
-  
-  float dif = getLight(p);
-
-  // enable to debug normals
-  // vec3 col = getNormal(p);
-  float amb = 0.8;
-  vec3 col = dif * vec3(1, 1, 1);
-  fragColor = vec4(col, 1.0);
-
+    // set output color
+    fragColor = vec4(col, 1.0);
 }
