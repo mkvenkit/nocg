@@ -97,6 +97,28 @@ vec3 getNormal(vec3 p)
   return normalize(n);
 }
 
+mat4 getViewMatrix(vec3 c, vec3 dir, vec3 u)
+{
+    vec3 side = normalize(cross(u, dir));
+    vec3 up = normalize(cross(dir, side));
+
+    mat4 T = mat4 (
+        vec4(1.0, 0.0, 0.0, 0.0),
+        vec4(0.0, 1.0, 0.0, 0.0),
+        vec4(0.0, 0.0, 1.0, 0.0),
+        vec4(c.x, c.y, c.z, 1.0)
+    );
+
+    mat4 R = mat4 (
+        vec4(side.x, up.x, dir.x, 0.0),
+        vec4(side.y, up.y, dir.y, 0.0),
+        vec4(side.z, up.z, dir.z, 0.0),
+        vec4(0.0, 0.0, 0.0, 1.0)
+    );
+
+    return T * R;
+}
+
 float getLight(vec3 p)
 {
   // light position
@@ -148,21 +170,29 @@ void main()
     // --------------------
     // ray marching:
     // --------------------
-
-    // set up ceneter of screen 
-    vec3 ps = vec3(uv, 0);
-    // set distance to eye 
-    float eye_dist = 2;
     // set ray origin 
-    vec3 ro = ps + eye_dist * vec3(5, 5, 5);
+    vec3 eye = vec3(0, 0, 5);
+    // looking at?
+    vec3 at = vec3(0, 0, 0);
+    // look direction 
+    vec3 dir = normalize(at - eye);
+    // set distance from eye to screen center
+    float c_dist = 2;
+    vec3 center = eye + c_dist * dir;    
+    // set up vector 
+    vec3 up = vec3(0, 1, 0);
+    // get transformation matrix 
+    mat4 M = getViewMatrix(center, dir, up);
+    // transform center of screen to world space
+    vec3 cs = (M * vec4(uv.x, uv.y, 0, 1)).xyz;
     
     // ray direction 
-    vec3 rd = normalize(ps - ro); 
+    vec3 ray_dir = normalize(cs - eye); 
     // use ray marching get distance to closest object
-    float d = rayMarch(ro, rd);
+    float d = rayMarch(eye, ray_dir);
 
     // calculate the point on the surface
-    vec3 p = ro + d * rd;
+    vec3 p = eye + d * ray_dir;
     
     // compute diffuse lighting
     float dif = getLight(p);
