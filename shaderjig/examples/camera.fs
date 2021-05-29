@@ -13,6 +13,13 @@ out vec4 fragColor;
 
 #define M_PI 3.1415926535897932384626433832795
 
+// struct to store ray marching hits 
+struct Surf
+{
+    float d;  // distance
+    vec3 col; // color
+};
+
 float sdCone( in vec3 p, in vec2 c, float h )
 {
   // c is the sin/cos of the angle, h is height
@@ -97,7 +104,30 @@ vec3 getNormal(vec3 p)
   return normalize(n);
 }
 
-mat4 getViewMatrix(vec3 c, vec3 dir, vec3 u)
+mat4 getViewMatrix(vec3 c, vec3 at, vec3 u)
+{
+    vec3 dir = normalize(at - c);
+    vec3 side = normalize(cross(u, dir));
+    vec3 up = normalize(cross(dir, side));
+
+    mat4 T = mat4 (
+        vec4(1.0, 0.0, 0.0, 0.0),
+        vec4(0.0, 1.0, 0.0, 0.0),
+        vec4(0.0, 0.0, 1.0, 0.0),
+        vec4(c.x, c.y, c.z, 1.0)
+    );
+
+    mat4 R = mat4 (
+        vec4(side.x, up.x, dir.x, 0.0),
+        vec4(side.y, up.y, dir.y, 0.0),
+        vec4(side.z, up.z, dir.z, 0.0),
+        vec4(0.0, 0.0, 0.0, 1.0)
+    );
+
+    return T * transpose(R);
+}
+
+mat4 getViewMatrix2(vec3 c, vec3 dir, vec3 u)
 {
     vec3 side = normalize(cross(u, dir));
     vec3 up = normalize(cross(dir, side));
@@ -153,7 +183,7 @@ void main()
     // --------------------
 
     // width of window in world coordinates 
-    float W = 4.0;
+    float W = 2.0;
     // In world coordinates, uv is on the XY plane 
     // centered at the origin, 
     // with range (-W/2, -H/2) to (W/2, H/2)
@@ -171,20 +201,20 @@ void main()
     // ray marching:
     // --------------------
     // set ray origin 
-    vec3 eye = vec3(0, -5, 5);
+    vec3 eye = vec3(5, 5, 5);
     // looking at?
     vec3 at = vec3(0, 0, 0);
     // look direction 
     vec3 dir = normalize(at - eye);
     // set up vector 
-    vec3 up = vec3(0, 1, 1);
+    vec3 up = vec3(0, 1, 0);
 
     // set distance from eye to screen center
     float c_dist = 2;
     vec3 center = eye + c_dist * dir;    
     
     // get transformation matrix 
-    mat4 M = getViewMatrix(center, dir, up);
+    mat4 M = getViewMatrix(center, at, up);
     // transform center of screen to world space
     vec3 cs = (M * vec4(uv.x, uv.y, 0, 1)).xyz;
     
