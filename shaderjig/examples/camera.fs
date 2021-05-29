@@ -122,7 +122,7 @@ mat4 getViewMatrix(vec3 c, vec3 dir, vec3 u)
 float getLight(vec3 p)
 {
   // light position
-  vec3 lightPos = vec3(5, 5, 0);
+  vec3 lightPos = vec3(5, -5, 0);
 
   // animate light pos
   vec2 lr = 5.0 * vec2(sin(iTime), cos(iTime));
@@ -171,13 +171,13 @@ void main()
     // ray marching:
     // --------------------
     // set ray origin 
-    vec3 eye = vec3(0, -5, 0);
+    vec3 eye = vec3(0, -5, 5);
     // looking at?
     vec3 at = vec3(0, 0, 0);
     // look direction 
     vec3 dir = normalize(at - eye);
     // set up vector 
-    vec3 up = vec3(0, 0, 1);
+    vec3 up = vec3(0, 1, 1);
 
     // set distance from eye to screen center
     float c_dist = 2;
