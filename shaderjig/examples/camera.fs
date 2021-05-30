@@ -56,13 +56,13 @@ float sdfTorus(vec3 p, vec2 r)
 }
 
 // SDF for infinite cylinder 
-float sdCylinderZ( vec3 p, vec3 c )
+float sdCylinderY( vec3 p, vec3 c )
 {
   return length(p.xz-c.xy)-c.z;
 }
 
 // SDF for infinite cylinder 
-float sdCylinderY( vec3 p, vec3 c )
+float sdCylinderZ( vec3 p, vec3 c )
 {
   return length(p.xy-c.xy)-c.z;
 }
@@ -162,7 +162,7 @@ vec3 getNormal(vec3 p)
 
 mat4 getViewMatrix(vec3 c, vec3 at, vec3 u)
 {
-    vec3 dir = normalize(at - c);
+    vec3 dir = -normalize(at - c);
     vec3 side = normalize(cross(u, dir));
     vec3 up = normalize(cross(dir, side));
 
@@ -186,7 +186,7 @@ mat4 getViewMatrix(vec3 c, vec3 at, vec3 u)
 float getLight(vec3 p)
 {
   // light position
-  vec3 lightPos = vec3(5, -5, 0);
+  vec3 lightPos = vec3(5, 5, 5);
 
   // animate light pos
   vec2 lr = 5.0 * vec2(sin(iTime), cos(iTime));
@@ -241,7 +241,7 @@ void main()
     // look direction 
     vec3 dir = normalize(at - eye);
     // set up vector 
-    vec3 up = vec3(0, 1, 0);
+    vec3 up = vec3(0, 0, 1);
 
     // set distance from eye to screen center
     float c_dist = 2;
