@@ -55,6 +55,24 @@ float sdfTorus(vec3 p, vec2 r)
   return d;
 }
 
+// SDF for infinite cylinder 
+float sdCylinderZ( vec3 p, vec3 c )
+{
+  return length(p.xz-c.xy)-c.z;
+}
+
+// SDF for infinite cylinder 
+float sdCylinderY( vec3 p, vec3 c )
+{
+  return length(p.xy-c.xy)-c.z;
+}
+
+// SDF for infinite cylinder 
+float sdCylinderX( vec3 p, vec3 c )
+{
+  return length(p.yz-c.xy)-c.z;
+}
+
 // min based on distance
 Surf minSurf(Surf s1, Surf s2)
 {
@@ -86,9 +104,22 @@ Surf getDist(vec3 p)
   d = sdfTorus(p, vec2(1, 0.2));
   Surf torus = Surf(d, vec3(0.0, 1.0, 1.0));
 
+  // axis cylinders
+  float axw = 0.025; // line thickness
+  // Z axis 
+  d = sdCylinderZ(p, vec3(0, 0, axw));
+  Surf cylZ = Surf(d, vec3(0.0, 0.0, 1.0)); 
+  // Y axis
+  d = sdCylinderY(p, vec3(0, 0, axw));
+  Surf cylY = Surf(d, vec3(0.0, 1.0, 0.0)); 
+  // X axis
+  d = sdCylinderX(p, vec3(0, 0, axw));
+  Surf cylX = Surf(d, vec3(1.0, 0.0, 0.0));
+
   // return min 
   //return dist; 
-  return minSurf(minSurf(minSurf(cyl, cone), torus), sph);
+  return minSurf(minSurf(minSurf(minSurf(minSurf(minSurf(cyl, 
+    cone), torus), sph), cylZ), cylY), cylX);
 }
 
 Surf rayMarch(vec3 ro, vec3 rd)
@@ -204,7 +235,7 @@ void main()
     // ray marching:
     // --------------------
     // set ray origin 
-    vec3 eye = vec3(2, 2, 2);
+    vec3 eye = vec3(4, 4, 4);
     // looking at?
     vec3 at = vec3(0, 0, 0);
     // look direction 
