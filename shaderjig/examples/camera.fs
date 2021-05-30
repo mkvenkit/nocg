@@ -162,7 +162,7 @@ vec3 getNormal(vec3 p)
 
 mat4 getViewMatrix(vec3 c, vec3 at, vec3 u)
 {
-    vec3 dir = -normalize(at - c);
+    vec3 dir = normalize(c - at);
     vec3 side = normalize(cross(u, dir));
     vec3 up = normalize(cross(dir, side));
 
