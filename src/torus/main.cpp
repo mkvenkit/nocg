@@ -2,9 +2,9 @@
 
 int main()
 {
-	TorusApp torusApp(640, 480, "Test");
+    TorusApp torusApp(640, 480, "Test");
 
-	torusApp.run();
+    torusApp.run();
 
-	return 0;
+    return 0;
 }
