@@ -31,7 +31,7 @@ add_executable(torus
 )
 target_link_libraries(torus PUBLIC ${COMMON_LIBS})
 
-include_directories(common)
+include_directories(src/common)
 include_directories(external/glfw-3.3.4/include)
 include_directories(external/glm-0.9.9.8/glm)
 include_directories(external/glad/include)
