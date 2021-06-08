@@ -117,9 +117,9 @@ void Torus::_createTorus()
         
         float u = i * du;
 
-        for (size_t j = 0; j < _nr; j++) {
+        for (size_t j = 0; j <= _nr; j++) {
 
-            float v = j * dv;
+            float v = (j % _nr) * dv;
 
             for (size_t k = 0; k < 2; k++)
             {
