@@ -2,7 +2,7 @@
 #include "Axis3D.h"
 #include "TorusApp.h"
 
-#define M_PI 3.14159265358979323846
+#define M_PI 3.14159265358979323846f
 
 TorusApp::TorusApp(int width, int height, const string& appName)
 	:RenderApp(width, height, appName)
@@ -13,7 +13,7 @@ TorusApp::TorusApp(int width, int height, const string& appName)
 
 TorusApp::~TorusApp()
 {
-
+	
 }
 
 void TorusApp::render()
