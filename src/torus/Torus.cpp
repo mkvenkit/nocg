@@ -45,7 +45,7 @@ void Torus::render(const glm::mat4& vMat, const glm::mat4& pMat)
 
     glPointSize(4.0);
     // draw 
-    glDrawArrays(GL_POINTS, 0, _vertexCount);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, _vertexCount);
 
     glBindVertexArray(0);
     glUseProgram(0);
@@ -59,13 +59,18 @@ void Torus::_createGeometry()
     _createTorus();
     _vertexCount = _vertices.size() / 3;
 
-    GLuint buffer;
+    GLuint buffer[2];
+
+
     // Get create two buffers
-    glCreateBuffers(1, &buffer);
+    glCreateBuffers(2, buffer);
+
+    // vertices 
+    
     // Initialize the first buffer
-    glNamedBufferStorage(buffer, sizeof(float) * _vertices.size(), _vertices.data(), 0);
+    glNamedBufferStorage(buffer[0], sizeof(float) * _vertices.size(), _vertices.data(), 0);
     // Bind it to the vertex array - offset zero, stride = sizeof(vec3)
-    glVertexArrayVertexBuffer(_vao, 0, buffer, 0, 3 * sizeof(float));
+    glVertexArrayVertexBuffer(_vao, 0, buffer[0], 0, 3 * sizeof(float));
     // Tell OpenGL what the format of the attribute is
     glVertexArrayAttribFormat(_vao, 0, 3, GL_FLOAT, GL_FALSE, 0);
     // Tell OpenGL which vertex buffer binding to use for this attribute
@@ -74,13 +79,29 @@ void Torus::_createGeometry()
     // Enable the attribute
     glEnableVertexArrayAttrib(_vao, 0);
 
+    // normals 
+
+    // Initialize the first buffer
+    glNamedBufferStorage(buffer[1], sizeof(float) * _vertices.size(), _vertices.data(), 0);
+    // Bind it to the vertex array - offset zero, stride = sizeof(vec3)
+    glVertexArrayVertexBuffer(_vao, 1, buffer[1], 0, 3 * sizeof(float));
+    // Tell OpenGL what the format of the attribute is
+    glVertexArrayAttribFormat(_vao, 1, 3, GL_FLOAT, GL_FALSE, 0);
+    // Tell OpenGL which vertex buffer binding to use for this attribute
+    glVertexArrayAttribBinding(_vao, 1, 1);
+
+    // Enable the attribute
+    glEnableVertexArrayAttrib(_vao, 1);
+
 
     glBindVertexArray(0);
 }
 
 void Torus::_createTorus()
 {
+    // clear old
     _vertices.clear();
+    _normals.clear();
 
     // A torus is given by the paramteric equations:
     // x = (R + r cos(v))cos(u)
@@ -97,16 +118,32 @@ void Torus::_createTorus()
 
         for (size_t j = 0; j < _nr; j++) {
 
-            float x = (_R + _r * cos(v)) * cos(u);
-            float y = (_R + _r * cos(v)) * sin(u);
-            float z = _r * sin(v);
+            for (size_t k = 0; k < 2; k++)
+            {
+                float uu = u + k * du;
+                // compute vertex
+                float x = (_R + _r * cos(v)) * cos(uu);
+                float y = (_R + _r * cos(v)) * sin(uu);
+                float z = _r * sin(v);
 
-            _vertices.push_back(x);
-            _vertices.push_back(y);
-            _vertices.push_back(z);
+                // add vertex 
+                _vertices.push_back(x);
+                _vertices.push_back(y);
+                _vertices.push_back(z);
 
-            // incr angle
-            v += dv;
+                // compute normal 
+                float nx = _r * cos(v) * cos(uu);
+                float ny = _r * cos(v) * sin(uu);
+                float nz = _r * sin(v);
+
+                // add normal 
+                _normals.push_back(nx);
+                _normals.push_back(ny);
+                _normals.push_back(nz);
+
+                // incr angle
+                v += dv;
+            }
         }
 
         // incr angle 
