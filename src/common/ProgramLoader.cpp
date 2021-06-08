@@ -1,5 +1,5 @@
 /*
-    
+
 
 */
 
@@ -83,7 +83,7 @@ unsigned int ProgramLoader::load(vector<string> shaderFiles)
     GLuint program = glCreateProgram();
 
     for (auto& fileName : shaderFiles) {
-        
+
         fs::path p(fileName);
         const auto& fext = p.extension();
         fileName = shader_dir + "/" + fileName;
@@ -97,10 +97,10 @@ unsigned int ProgramLoader::load(vector<string> shaderFiles)
             glAttachShader(program, shader);
         }
     }
-   
+
     glLinkProgram(program);
 
-	return program;
+    return program;
 }
 
 bool ProgramLoader::getenv(const string& var, string& value)

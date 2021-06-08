@@ -13,32 +13,32 @@ class RenderApp
 
 public:
 
-	RenderApp(int width, int height, const string& appName);
-	virtual ~RenderApp();
+    RenderApp(int width, int height, const string& appName);
+    virtual ~RenderApp();
 
-	void run();
+    void run();
 
-	// override this in base class
-	virtual void render();
+    // override this in base class
+    virtual void render();
 
 protected:
 
-	int _width;
-	int _height;
-	float _aspect = 1.0;
+    int _width;
+    int _height;
+    float _aspect = 1.0;
 
-	string _appName;
+    string _appName;
 
 
 private:
 
-	// hide
-	RenderApp() {}
+    // hide
+    RenderApp() {}
 
-	void _glfwInit();
-	void _glInit();
+    void _glfwInit();
+    void _glInit();
 
-	GLFWwindow* _window = 0;
-	
+    GLFWwindow* _window = 0;
+
 };
 

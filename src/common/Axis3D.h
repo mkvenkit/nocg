@@ -6,7 +6,7 @@ class Axis3D :
     public Render3D
 {
 public:
-    
+
     Axis3D(float length);
     ~Axis3D();
 

@@ -23,7 +23,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 RenderApp::RenderApp(int width, int height, const string& appName)
     :_width(width), _height(height), _appName(appName)
 {
-	_glfwInit();
+    _glfwInit();
     _glInit();
 }
 
