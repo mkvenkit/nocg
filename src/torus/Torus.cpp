@@ -82,7 +82,7 @@ void Torus::_createGeometry()
     // normals 
 
     // Initialize the first buffer
-    glNamedBufferStorage(buffer[1], sizeof(float) * _vertices.size(), _vertices.data(), 0);
+    glNamedBufferStorage(buffer[1], sizeof(float) * _normals.size(), _normals.data(), 0);
     // Bind it to the vertex array - offset zero, stride = sizeof(vec3)
     glVertexArrayVertexBuffer(_vao, 1, buffer[1], 0, 3 * sizeof(float));
     // Tell OpenGL what the format of the attribute is
@@ -109,14 +109,17 @@ void Torus::_createTorus()
     // z = r sin(v)
     // u, v => [0, 2pi]
 
-    float u = 0.0f;
+
     float du = 2 * M_PI / _nR;
-    float v = 0.0f;
     float dv = 2 * M_PI / _nr;
 
     for (size_t i = 0; i < _nR; i++) {
+        
+        float u = i * du;
 
         for (size_t j = 0; j < _nr; j++) {
+
+            float v = j * dv;
 
             for (size_t k = 0; k < 2; k++)
             {
@@ -132,9 +135,9 @@ void Torus::_createTorus()
                 _vertices.push_back(z);
 
                 // compute normal 
-                float nx = _r * cos(v) * cos(uu);
-                float ny = _r * cos(v) * sin(uu);
-                float nz = _r * sin(v);
+                float nx = cos(v) * cos(uu);
+                float ny = cos(v) * sin(uu);
+                float nz = sin(v);
 
                 // add normal 
                 _normals.push_back(nx);
@@ -145,9 +148,6 @@ void Torus::_createTorus()
                 v += dv;
             }
         }
-
-        // incr angle 
-        u += du;
     }
 
 }

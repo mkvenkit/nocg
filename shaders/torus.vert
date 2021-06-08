@@ -20,5 +20,7 @@ void main()
 
 	// normal 
 	norm = aNorm;
+
+	//color = norm;
 }
 
