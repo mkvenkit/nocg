@@ -25,6 +25,8 @@ private:
     // METHODS 
     void _createGeometry();
 
+    void _createTorus();
+
 
     // DATA 
 
