@@ -21,15 +21,24 @@ void main()
 	vec3 camb = vec3(0.1);
 
 	// diffuse 
-	vec3 lightPos = vec3(10.0, 0.0, 10.0);
+	vec3 lightPos = vec3(-10.0, -10.0, 10.0);
     vec3 L = normalize(lightPos - wcVert);
     float diff = max(dot(N, L), 0.0);
-	vec3 Ka = vec3(1.0, 1.0, 0.0);
-	float Ia = 1.0;
-	vec3 cdiff = diff*Ka;
+	vec3 Ka = vec3(1.0, 0.0, 0.0);
+	float Ia = 0.5;
+	vec3 cdiff = diff*Ka*Ia;
+
+	// specular 
+	vec3 Ks = vec3(1.0, 1.0, 1.0);
+	float Is = 1.0;
+	vec3 R = reflect(-L, N);
+	vec3 V = normalize(-wcVert);
+	float a = 128.0;
+	float spec = pow(max(dot(R, V), 0.0), a);
+	vec3 cspec = spec*Ks*Is;
 
 	// final color 
-	color = camb + cdiff;
+	color = camb  + cdiff + cspec;
 
 	gl_Position = pMat * vMat* vec4(aVert, 1.0);
 
