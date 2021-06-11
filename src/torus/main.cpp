@@ -2,7 +2,7 @@
 
 int main()
 {
-    TorusApp torusApp(640, 480, "Test");
+    TorusApp torusApp(1024, 780, "Test");
 
     torusApp.run();
 

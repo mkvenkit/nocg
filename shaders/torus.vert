@@ -21,7 +21,7 @@ void main()
 	vec3 camb = vec3(0.1);
 
 	// diffuse 
-	vec3 lightPos = vec3(-10.0, -10.0, 10.0);
+	vec3 lightPos = vec3(0.0, 0.0, 10.0);
     vec3 L = normalize(lightPos - wcVert);
     float diff = max(dot(N, L), 0.0);
 	vec3 Ka = vec3(1.0, 0.0, 0.0);
@@ -38,7 +38,7 @@ void main()
 	vec3 cspec = spec*Ks*Is;
 
 	// final color 
-	color = camb  + cdiff + cspec;
+	color = camb  + cdiff  + cspec;
 
 	gl_Position = pMat * vMat* vec4(aVert, 1.0);
 
