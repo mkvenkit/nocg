@@ -33,10 +33,6 @@ void Torus::render(const glm::mat4& vMat, const glm::mat4& pMat)
 {
     glUseProgram(_program);
 
-    glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    glm::mat4 rot = glm::rotate(glm::mat4(1.0f), 10*M_PI / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-    _modelMat = trans * rot;
-
     // set model matrix
     GLint mMatLoc = glGetUniformLocation(_program, "mMat");
     glUniformMatrix4fv(mMatLoc, 1, GL_FALSE, &_modelMat[0][0]);
@@ -75,6 +71,18 @@ void Torus::togglePhongShading()
         _program = ProgramLoader::load(shaderFiles);
     }
     _usingPhong = !_usingPhong;
+}
+
+void Torus::step()
+{
+    // compute angle
+    static float theta = 0.0;
+    theta = theta + 2.0 * M_PI / 180.0f;
+
+    // set model transform
+    glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    glm::mat4 rot = glm::rotate(glm::mat4(1.0f), theta, glm::vec3(0.0f, 1.0f, 0.0f));
+    _modelMat = trans * rot;
 }
 
 void Torus::_createGeometry()

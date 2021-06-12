@@ -7,7 +7,6 @@ uniform mat4 vMat;
 uniform mat4 pMat;
 uniform mat4 mMat;
 
-
 out VS_OUT {
 	out vec3 N;
 	out vec3 L;

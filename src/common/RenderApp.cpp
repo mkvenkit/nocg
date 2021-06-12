@@ -49,15 +49,21 @@ void RenderApp::run()
         _aspect = _width / (float)_height;
 
         // update every x seconds
-        double currT = glfwGetTime();
+        _time = glfwGetTime();
 
-        if ((currT - t) > DELTA) {
+        if ((_time - t) > DELTA) {
 
             // save 
-            t = currT;
+            t = _time;
 
             // render 
             render();
+
+            // call step if time elapsed
+            if (_time - _lastStep > TSTEP) {
+                step();
+                _lastStep = _time;
+            }
 
             glfwSwapBuffers(_window);
             glfwPollEvents();
@@ -70,12 +76,13 @@ void RenderApp::run()
     exit(EXIT_SUCCESS);
 }
 
+// Just clears the screen to a color.
 void RenderApp::render()
 {
 
     glViewport(0, 0, _width, _height);
     glClearColor(1.0, 1.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
 
 }
 

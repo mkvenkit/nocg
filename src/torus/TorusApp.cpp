@@ -56,3 +56,8 @@ void TorusApp::keyCallback(GLFWwindow* window, int key, int scancode, int action
     // call base class method
     RenderApp::keyCallback(window, key, scancode, action, mods);
 }
+
+void TorusApp::step()
+{
+    _torus->step();
+}

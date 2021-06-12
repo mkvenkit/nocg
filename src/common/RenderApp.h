@@ -13,13 +13,17 @@ public:
     RenderApp(int width, int height, const string& appName);
     virtual ~RenderApp();
 
+    // main loop
+    void run();
+
     // override as needed 
     virtual void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-    void run();
-
     // override this in derived class
     virtual void render();
+
+    // override as needed
+    virtual void step() {}
 
 protected:
 
@@ -32,11 +36,28 @@ protected:
 
 private:
 
+    //
+    // Private methods
+    //
+    
     // hide
     RenderApp() {}
 
     void _glfwInit();
     void _glInit();
+
+    //
+    // Private data
+    //
+
+    // time between steps
+    const float TSTEP = 0.25f;
+    
+    // time in seconds since start
+    float _time = 0.0f;
+
+    // time in seconds for last step()
+    float _lastStep = 0.0;
 
     GLFWwindow* _window = 0;
 
