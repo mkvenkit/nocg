@@ -1,12 +1,9 @@
 #pragma once
 
-#include <glad/glad.h>
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
-
 #include <string>
 using std::string;
 
+struct GLFWwindow;
 
 class RenderApp
 {
@@ -16,17 +13,18 @@ public:
     RenderApp(int width, int height, const string& appName);
     virtual ~RenderApp();
 
-    void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    // override as needed 
+    virtual void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
     void run();
 
-    // override this in base class
+    // override this in derived class
     virtual void render();
 
 protected:
 
-    int _width;
-    int _height;
+    int _width = 0;
+    int _height = 0;
     float _aspect = 1.0;
 
     string _appName;

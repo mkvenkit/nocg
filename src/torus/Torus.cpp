@@ -17,7 +17,7 @@ Torus::Torus(float r, float R, int nr, int nR)
     Render3D()
 {
     // load program 
-    vector<string> shaderFiles = { "torus_p.vert", "torus_p.frag" };
+    vector<string> shaderFiles = { "torus.vert", "torus.frag" };
     _program = ProgramLoader::load(shaderFiles);
 
     // create geometry 
@@ -49,6 +49,22 @@ void Torus::render(const glm::mat4& vMat, const glm::mat4& pMat)
 
     glBindVertexArray(0);
     glUseProgram(0);
+}
+
+void Torus::togglePhongShading()
+{
+    // switch shaders
+    if (_usingPhong) {
+        // load program 
+        vector<string> shaderFiles = { "torus.vert", "torus.frag" };
+        _program = ProgramLoader::load(shaderFiles);
+    }
+    else {
+        // load program 
+        vector<string> shaderFiles = { "torus_p.vert", "torus_p.frag" };
+        _program = ProgramLoader::load(shaderFiles);
+    }
+    _usingPhong = !_usingPhong;
 }
 
 void Torus::_createGeometry()

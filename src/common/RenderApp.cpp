@@ -1,3 +1,7 @@
+#include <glad/glad.h>
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -18,9 +22,6 @@ void RenderApp::keyCallback(GLFWwindow* window, int key, int scancode, int actio
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
-    else {
-
-    }
 }
 
 RenderApp::RenderApp(int width, int height, const string& appName)

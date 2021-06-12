@@ -20,7 +20,12 @@ public:
     TorusApp(int width, int height, const string& appName);
     ~TorusApp();
 
+    // override from base class
     void render();
+
+    // override from base class
+    void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
 
 private:
 

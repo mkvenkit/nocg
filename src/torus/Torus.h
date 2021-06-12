@@ -20,6 +20,9 @@ public:
     // public methods 
     void render(const glm::mat4& vMat, const glm::mat4& pMat);
 
+    // toggle lighting method
+    void togglePhongShading();
+
 private:
 
     // METHODS 
@@ -36,7 +39,8 @@ private:
     int _nr = 16;
     int _nR = 16;
 
-    // 
+    // using phong shading
+    bool _usingPhong = false;
 
 
 };

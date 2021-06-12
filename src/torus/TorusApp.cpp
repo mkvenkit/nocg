@@ -1,3 +1,7 @@
+#include <glad/glad.h>
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
 #include "Torus.h"
 #include "Axis3D.h"
 #include "Camera.h"
@@ -40,4 +44,15 @@ void TorusApp::render()
     // render axis
     _axis->render(vMat, pMat);
 
+}
+
+void TorusApp::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+ 
+    if (key == GLFW_KEY_P && action == GLFW_PRESS) {
+        _torus->togglePhongShading();
+    }
+
+    // call base class method
+    RenderApp::keyCallback(window, key, scancode, action, mods);
 }
