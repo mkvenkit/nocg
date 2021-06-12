@@ -9,6 +9,7 @@ using std::string;
 
 class Torus;
 class Axis3D;
+class Camera;
 
 class TorusApp :
     public RenderApp
@@ -26,5 +27,7 @@ private:
     std::unique_ptr<Torus> _torus;
 
     std::unique_ptr<Axis3D> _axis;
+    std::unique_ptr<Camera> _camera;
+
 };
 

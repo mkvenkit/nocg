@@ -9,6 +9,7 @@ uniform mat4 pMat;
 out vec3 color;
 out vec3 norm;
 
+
 void main()
 {
 	// vertex in world coords

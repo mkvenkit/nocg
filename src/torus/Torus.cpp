@@ -17,7 +17,7 @@ Torus::Torus(float r, float R, int nr, int nR)
     Render3D()
 {
     // load program 
-    vector<string> shaderFiles = { "torus.vert", "torus.frag" };
+    vector<string> shaderFiles = { "torus_p.vert", "torus_p.frag" };
     _program = ProgramLoader::load(shaderFiles);
 
     // create geometry 

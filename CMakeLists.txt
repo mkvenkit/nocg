@@ -13,6 +13,7 @@ find_package(OpenGL)
 # add common library 
 add_library(nocg_common 
         src/common/Axis3D.cpp
+        src/common/Camera.cpp
         src/common/ProgramLoader.cpp
         src/common/Render3D.cpp
         src/common/RenderApp.cpp

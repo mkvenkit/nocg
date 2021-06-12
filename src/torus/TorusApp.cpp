@@ -1,5 +1,6 @@
 #include "Torus.h"
 #include "Axis3D.h"
+#include "Camera.h"
 #include "TorusApp.h"
 
 #define M_PI 3.14159265358979323846f
@@ -7,7 +8,7 @@
 TorusApp::TorusApp(int width, int height, const string& appName)
     :RenderApp(width, height, appName)
 {
-    _torus = std::make_unique<Torus>(0.5, 2, 24, 24);
+    _torus = std::make_unique<Torus>(0.5, 2, 64, 64);
     _axis = std::make_unique<Axis3D>(10.0);
 }
 
