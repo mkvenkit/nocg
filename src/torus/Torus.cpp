@@ -33,6 +33,11 @@ void Torus::render(const glm::mat4& vMat, const glm::mat4& pMat)
 {
     glUseProgram(_program);
 
+    //  rim light 
+    GLint rlLoc = glGetUniformLocation(_program, "enableRimLight");
+    glUniform1f(rlLoc, _rlEnabled ? 1 : 0);
+
+
     // set model matrix
     GLint mMatLoc = glGetUniformLocation(_program, "mMat");
     glUniformMatrix4fv(mMatLoc, 1, GL_FALSE, &_modelMat[0][0]);
@@ -71,6 +76,11 @@ void Torus::togglePhongShading()
         _program = ProgramLoader::load(shaderFiles);
     }
     _usingPhong = !_usingPhong;
+}
+
+void Torus::toggleRimLight()
+{
+    _rlEnabled = !_rlEnabled;
 }
 
 void Torus::_createGeometry()

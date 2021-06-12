@@ -55,6 +55,9 @@ void TorusApp::keyCallback(GLFWwindow* window, int key, int scancode, int action
     if (key == GLFW_KEY_P && action == GLFW_PRESS) {
         _torus->togglePhongShading();
     }
+    else if (key == GLFW_KEY_R && action == GLFW_PRESS) {
+        _torus->toggleRimLight();
+    }
 
     // call base class method
     RenderApp::keyCallback(window, key, scancode, action, mods);

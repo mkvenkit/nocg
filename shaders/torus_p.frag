@@ -1,10 +1,14 @@
 #version 450 core
 
+uniform bool enableRimLight;
+
 in VS_OUT {
 	in vec3 N;
 	in vec3 L;
 	in vec3 V;
 } fs_in;
+
+out vec3 color;
 
 void main()
 {
@@ -24,16 +28,27 @@ void main()
 
 	// specular 
 	vec3 Ks = vec3(1.0, 1.0, 1.0);
-	float Is = 1.0;
+	float Is = 1.0;	
 	vec3 R = reflect(-L, N);
 	float a = 32.0;
 	float spec = pow(max(dot(R, V), 0.0), a);
 	vec3 cspec = spec*Ks*Is;
 
+	// rim light 
+	vec3 crim = vec3(0.0);
+
+	if (enableRimLight) {
+		float rim = (1.0 - dot(N, V));
+		rim = smoothstep(0.0, 1.0, rim);
+		float rim_exp = 3.5;
+		rim = pow(rim, rim_exp);
+		vec3 rim_col = vec3(0.1, 0.1, 0.1);
+		crim = rim * rim_col;
+	}
+
 	// final color 
-	vec3 color = camb + cdiff + cspec;
+	color = camb + cdiff + cspec + crim;
    
-    gl_FragColor = vec4(color, 1.0);    
 }
 
 

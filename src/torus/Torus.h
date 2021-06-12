@@ -23,6 +23,9 @@ public:
     // toggle lighting method
     void togglePhongShading();
 
+    // toggle rim lighting 
+    void toggleRimLight();
+
 
 private:
 
@@ -43,6 +46,7 @@ private:
     // using phong shading
     bool _usingPhong = true;
 
-
+    // rim lighting 
+    bool _rlEnabled = false;
 };
 
