@@ -101,10 +101,12 @@ void RenderApp::_glfwInit()
     // set user pointer
     // https://stackoverflow.com/questions/21799746/how-to-glfwsetkeycallback-for-different-classes/62972123#62972123
 
+    // define a lambda for key press callback
     auto keyCallback = [](GLFWwindow* window, int key, int scancode, int action, int mods) {
         auto me = (RenderApp*)glfwGetWindowUserPointer(window);
         me->keyCallback(window, key, scancode, action, mods);
     };
+    // set callback
     glfwSetWindowUserPointer(_window, this);
     glfwSetKeyCallback(_window, keyCallback);
 
