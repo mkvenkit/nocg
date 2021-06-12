@@ -33,7 +33,7 @@ void TorusApp::render()
     glm::mat4 pMat = glm::perspective(fov, _aspect, 1.0f, 100.0f);
 
     // view transform
-    glm::vec3 eye(5, 5, 5);
+    glm::vec3 eye(8, 8, 8);
     glm::vec3 center(0, 0, 0);
     glm::vec3 up(0, 0, 1);
     glm::mat4 vMat = glm::lookAt(eye, center, up);

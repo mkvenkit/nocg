@@ -17,7 +17,7 @@ Torus::Torus(float r, float R, int nr, int nR)
     Render3D()
 {
     // load program 
-    vector<string> shaderFiles = { "torus.vert", "torus.frag" };
+    vector<string> shaderFiles = { "torus_p.vert", "torus_p.frag" };
     _program = ProgramLoader::load(shaderFiles);
 
     // create geometry 
@@ -33,10 +33,20 @@ void Torus::render(const glm::mat4& vMat, const glm::mat4& pMat)
 {
     glUseProgram(_program);
 
-    // set matrices
+    glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    glm::mat4 rot = glm::rotate(glm::mat4(1.0f), 10*M_PI / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+    _modelMat = trans * rot;
+
+    // set model matrix
+    GLint mMatLoc = glGetUniformLocation(_program, "mMat");
+    glUniformMatrix4fv(mMatLoc, 1, GL_FALSE, &_modelMat[0][0]);
+
+
+    // set view matrix
     GLint vMatLoc = glGetUniformLocation(_program, "vMat");
     glUniformMatrix4fv(vMatLoc, 1, GL_FALSE, &vMat[0][0]);
 
+    // set projection matrix 
     GLint pMatLoc = glGetUniformLocation(_program, "pMat");
     glUniformMatrix4fv(pMatLoc, 1, GL_FALSE, &pMat[0][0]);
 

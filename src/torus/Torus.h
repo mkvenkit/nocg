@@ -40,7 +40,7 @@ private:
     int _nR = 16;
 
     // using phong shading
-    bool _usingPhong = false;
+    bool _usingPhong = true;
 
 
 };

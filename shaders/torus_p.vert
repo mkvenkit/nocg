@@ -5,6 +5,8 @@ layout(location = 1) in vec3 aNorm;
 
 uniform mat4 vMat;
 uniform mat4 pMat;
+uniform mat4 mMat;
+
 
 out VS_OUT {
 	out vec3 N;
@@ -15,9 +17,9 @@ out VS_OUT {
 void main()
 {
 	// vertex in world coords
-	vec3 wcVert = (vMat* vec4(aVert, 1.0)).xyz;
+	vec3 wcVert = (vMat * mMat * vec4(aVert, 1.0)).xyz;
 	// normal in world coords
-	mat4 nMat = transpose(inverse(vMat));
+	mat4 nMat = transpose(inverse(vMat * mMat));
 	vs_out.N = (nMat* vec4(aNorm, 1.0)).xyz;
 	
 	// diffuse 
@@ -27,6 +29,6 @@ void main()
 	// specular 
 	vs_out.V = -wcVert;
 
-	gl_Position = pMat * vMat* vec4(aVert, 1.0);
+	gl_Position = pMat * vMat * mMat * vec4(aVert, 1.0);
 }
 

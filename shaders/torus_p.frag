@@ -26,12 +26,12 @@ void main()
 	vec3 Ks = vec3(1.0, 1.0, 1.0);
 	float Is = 1.0;
 	vec3 R = reflect(-L, N);
-	float a = 128.0;
+	float a = 32.0;
 	float spec = pow(max(dot(R, V), 0.0), a);
 	vec3 cspec = spec*Ks*Is;
 
 	// final color 
-	vec3 color = camb  + cdiff + cspec;
+	vec3 color = camb + cdiff + cspec;
    
     gl_FragColor = vec4(color, 1.0);    
 }
