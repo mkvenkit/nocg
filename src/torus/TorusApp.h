@@ -36,5 +36,6 @@ private:
     std::unique_ptr<Axis3D> _axis;
     std::unique_ptr<Camera> _camera;
 
+    bool _showAxis = true;
 };
 

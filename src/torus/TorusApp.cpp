@@ -45,7 +45,9 @@ void TorusApp::render()
     _torus->render(vMat, pMat);
 
     // render axis
-    _axis->render(vMat, pMat);
+    if (_showAxis) {
+        _axis->render(vMat, pMat);
+    }
 
 }
 
@@ -57,6 +59,10 @@ void TorusApp::keyCallback(GLFWwindow* window, int key, int scancode, int action
     }
     else if (key == GLFW_KEY_R && action == GLFW_PRESS) {
         _torus->toggleRimLight();
+    }
+    else if (key == GLFW_KEY_A && action == GLFW_PRESS) {
+        // toggle axis display
+        _showAxis = !_showAxis;
     }
 
     // call base class method
