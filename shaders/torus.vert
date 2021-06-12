@@ -5,6 +5,7 @@ layout(location = 1) in vec3 aNorm;
 
 uniform mat4 vMat;
 uniform mat4 pMat;
+uniform mat4 mMat;
 
 out vec3 color;
 out vec3 norm;
@@ -13,10 +14,10 @@ out vec3 norm;
 void main()
 {
 	// vertex in world coords
-	vec3 wcVert = (vMat* vec4(aVert, 1.0)).xyz;
+	vec3 wcVert = (vMat * mMat * vec4(aVert, 1.0)).xyz;
 	// normal in world coords
-	mat4 nMat = transpose(inverse(vMat));
-	vec3 N = normalize((nMat* vec4(aNorm, 1.0)).xyz);
+	mat4 nMat = transpose(inverse(vMat * mMat));
+	vec3 N = normalize((nMat * vec4(aNorm, 1.0)).xyz);
 
 	// ambient 
 	vec3 camb = vec3(0.1);
@@ -41,7 +42,7 @@ void main()
 	// final color 
 	color = camb  + cdiff  + cspec;
 
-	gl_Position = pMat * vMat* vec4(aVert, 1.0);
+	gl_Position = pMat * vMat * mMat * vec4(aVert, 1.0);
 
 	norm = aNorm;	
 }
