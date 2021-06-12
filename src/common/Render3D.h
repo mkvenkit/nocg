@@ -17,7 +17,11 @@ public:
     Render3D();
     ~Render3D();
 
+    // Implement in derived class
     virtual void render(const glm::mat4& vMat, const glm::mat4& pMat) = 0;
+
+    // set model matrix
+    void setModelMatrix(const glm::mat4& mMat) { _modelMat = mMat; }
 
 protected:
 

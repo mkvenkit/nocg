@@ -12,6 +12,9 @@
 TorusApp::TorusApp(int width, int height, const string& appName)
     :RenderApp(width, height, appName)
 {
+    // set time step interval for animation
+    setTStep(0.1);
+
     _torus = std::make_unique<Torus>(0.5, 2, 64, 64);
     _axis = std::make_unique<Axis3D>(10.0);
 }
@@ -59,5 +62,13 @@ void TorusApp::keyCallback(GLFWwindow* window, int key, int scancode, int action
 
 void TorusApp::step()
 {
-    _torus->step();
+    // compute angle
+    static float theta = 0.0;
+    theta = theta + 2.0 * M_PI / 180.0f;
+
+    // set model transform
+    glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    glm::mat4 rot = glm::rotate(glm::mat4(1.0f), theta, glm::vec3(0.0f, 1.0f, 0.0f));
+    _torus->setModelMatrix(trans * rot);
+
 }

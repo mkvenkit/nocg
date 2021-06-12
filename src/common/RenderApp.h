@@ -33,6 +33,10 @@ protected:
 
     string _appName;
 
+    // set time step interval in seconds
+    void setTStep(float tsInterval)  {
+        _tsInterval = tsInterval;
+    }
 
 private:
 
@@ -51,7 +55,7 @@ private:
     //
 
     // time between steps
-    const float TSTEP = 0.25f;
+    float _tsInterval = 0.25f;
     
     // time in seconds since start
     float _time = 0.0f;

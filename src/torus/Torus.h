@@ -23,8 +23,6 @@ public:
     // toggle lighting method
     void togglePhongShading();
 
-    // time step 
-    void step();
 
 private:
 

@@ -73,18 +73,6 @@ void Torus::togglePhongShading()
     _usingPhong = !_usingPhong;
 }
 
-void Torus::step()
-{
-    // compute angle
-    static float theta = 0.0;
-    theta = theta + 2.0 * M_PI / 180.0f;
-
-    // set model transform
-    glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    glm::mat4 rot = glm::rotate(glm::mat4(1.0f), theta, glm::vec3(0.0f, 1.0f, 0.0f));
-    _modelMat = trans * rot;
-}
-
 void Torus::_createGeometry()
 {
     glCreateVertexArrays(1, &_vao);

@@ -60,7 +60,7 @@ void RenderApp::run()
             render();
 
             // call step if time elapsed
-            if (_time - _lastStep > TSTEP) {
+            if (_time - _lastStep > _tsInterval) {
                 step();
                 _lastStep = _time;
             }
