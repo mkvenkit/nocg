@@ -16,6 +16,8 @@ public:
     RenderApp(int width, int height, const string& appName);
     virtual ~RenderApp();
 
+    void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
     void run();
 
     // override this in base class

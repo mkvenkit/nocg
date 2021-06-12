@@ -14,10 +14,13 @@ static void error_callback(int error, const char* description)
     fprintf(stderr, "Error: %s\n", description);
 }
 
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void RenderApp::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
+    else {
+
+    }
 }
 
 RenderApp::RenderApp(int width, int height, const string& appName)
@@ -94,7 +97,15 @@ void RenderApp::_glfwInit()
         exit(EXIT_FAILURE);
     }
 
-    glfwSetKeyCallback(_window, key_callback);
+    // set user pointer
+    // https://stackoverflow.com/questions/21799746/how-to-glfwsetkeycallback-for-different-classes/62972123#62972123
+
+    auto keyCallback = [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+        auto me = (RenderApp*)glfwGetWindowUserPointer(window);
+        me->keyCallback(window, key, scancode, action, mods);
+    };
+    glfwSetWindowUserPointer(_window, this);
+    glfwSetKeyCallback(_window, keyCallback);
 
     glfwMakeContextCurrent(_window);
     gladLoadGL();
