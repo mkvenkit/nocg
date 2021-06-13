@@ -12,7 +12,7 @@ class Axis3D;
 class Camera;
 
 class TorusApp :
-    public RenderApp
+    public nocg::RenderApp
 {
 
 public:

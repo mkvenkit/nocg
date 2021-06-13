@@ -3,7 +3,7 @@
 #include "Render3D.h"
 
 class Axis3D :
-    public Render3D
+    public nocg::Render3D
 {
 public:
 

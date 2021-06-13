@@ -8,7 +8,7 @@
 using std::string;
 using std::vector;
 
-class Torus : public Render3D
+class Torus : public nocg::Render3D
 {
 
 public:

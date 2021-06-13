@@ -10,12 +10,14 @@
 using std::string;
 using std::vector;
 
+namespace nocg {
+
 class Render3D
 {
 public:
 
-    Render3D();
-    ~Render3D();
+    Render3D() {}
+    ~Render3D() {}
 
     // Implement in derived class
     virtual void render(const glm::mat4& vMat, const glm::mat4& pMat) = 0;
@@ -42,3 +44,4 @@ protected:
     glm::mat4 _modelMat = glm::mat4(1.0f);
 };
 
+} // namespace nocg

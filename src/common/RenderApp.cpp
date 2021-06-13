@@ -13,6 +13,8 @@ using std::endl;
 
 #include "RenderApp.h"
 
+namespace nocg {
+
 static void error_callback(int error, const char* description)
 {
     fprintf(stderr, "Error: %s\n", description);
@@ -131,3 +133,5 @@ void RenderApp::_glInit()
     cout << "GL_VERSION: " << glGetString(GL_VERSION) << endl;
     cout << "GL_RENDERER: " << glGetString(GL_RENDERER) << endl;
 }
+
+} // namespace nocg

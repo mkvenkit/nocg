@@ -5,6 +5,8 @@ using std::string;
 
 struct GLFWwindow;
 
+namespace nocg {
+
 class RenderApp
 {
 
@@ -67,3 +69,4 @@ private:
 
 };
 
+} // namespace nocg
