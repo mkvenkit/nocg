@@ -9,6 +9,8 @@
 
 #include "Axis3D.h"
 
+using namespace nocg;
+
 Axis3D::Axis3D(float length)
     :_length(length)
 {

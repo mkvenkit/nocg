@@ -25,6 +25,8 @@ using std::ifstream;
 #include <filesystem>
 namespace fs = std::filesystem;
 
+namespace nocg {
+
 static GLuint loadShader(GLenum shaderType, const string& fileName)
 {
     GLuint shader = 0;
@@ -132,3 +134,5 @@ bool ProgramLoader::getenv(const string& var, string& value)
 
     return true;
 }
+
+} // namespace nocg

@@ -12,6 +12,8 @@
 
 #define M_PI 3.14159265358979323846f
 
+using namespace nocg;
+
 Torus::Torus(float r, float R, int nr, int nR)
     :_r(r), _R(R), _nr(nr), _nR(nR),
     Render3D()
