@@ -16,6 +16,7 @@ add_library(nocg_common
         src/common/Camera.cpp
         src/common/ProgramLoader.cpp
         src/common/RenderApp.cpp
+        src/common/TextureLoader.cpp
 )
 
 # add glad 
