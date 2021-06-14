@@ -20,6 +20,8 @@ public:
     TorusApp(int width, int height, const string& appName);
     ~TorusApp();
 
+    void _printHelp();
+
     // override from base class
     void render();
 

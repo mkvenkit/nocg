@@ -25,6 +25,14 @@ public:
     // set model matrix
     void setModelMatrix(const glm::mat4& mMat) { _modelMat = mMat; }
 
+    // clear data
+    void clear() {
+        _vertices.clear();
+        _colors.clear();
+        _normals.clear();
+        _texCoords.clear();
+    }
+
 protected:
 
     // program handle
@@ -36,6 +44,7 @@ protected:
     vector<float> _vertices;
     vector<float> _colors;
     vector<float> _normals;
+    vector<float> _texCoords;
 
     uint32_t _vertexCount = 0;
 

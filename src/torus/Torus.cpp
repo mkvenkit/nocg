@@ -85,6 +85,19 @@ void Torus::toggleRimLight()
     _rlEnabled = !_rlEnabled;
 }
 
+void Torus::toggleTexture()
+{
+
+}
+
+void Torus::setDisplayMode(TorusDisplayMode mode)
+{
+    // reload if needed 
+    _reloadShaders(mode);
+    // set current mode
+    _displayMode = mode;
+}
+
 void Torus::_createGeometry()
 {
     glCreateVertexArrays(1, &_vao);
@@ -93,11 +106,11 @@ void Torus::_createGeometry()
     _createTorus();
     _vertexCount = _vertices.size() / 3;
 
-    GLuint buffer[2];
+    GLuint buffer[3];
 
 
-    // Get create two buffers
-    glCreateBuffers(2, buffer);
+    // create buffers
+    glCreateBuffers(3, buffer);
 
     // vertices 
     
@@ -127,15 +140,31 @@ void Torus::_createGeometry()
     // Enable the attribute
     glEnableVertexArrayAttrib(_vao, 1);
 
+    // tex coords 
+
+    // Initialize the first buffer
+    glNamedBufferStorage(buffer[2], sizeof(float) * _texCoords.size(), _texCoords.data(), 0);
+    // Bind it to the vertex array - offset zero, stride = sizeof(vec3)
+    glVertexArrayVertexBuffer(_vao, 2, buffer[2], 0, 2 * sizeof(float));
+    // Tell OpenGL what the format of the attribute is
+    glVertexArrayAttribFormat(_vao, 2, 2, GL_FLOAT, GL_FALSE, 0);
+    // Tell OpenGL which vertex buffer binding to use for this attribute
+    glVertexArrayAttribBinding(_vao, 2, 2);
+
+    // Enable the attribute
+    glEnableVertexArrayAttrib(_vao, 2);
+
 
     glBindVertexArray(0);
+
+    // clear memory allocated for vertex data 
+    clear();
 }
 
 void Torus::_createTorus()
 {
-    // clear old
-    _vertices.clear();
-    _normals.clear();
+    // clear memory allocated for vertex data 
+    clear();
 
     // A torus is given by the paramteric equations:
     // x = (R + r cos(v))cos(u)
@@ -178,10 +207,51 @@ void Torus::_createTorus()
                 _normals.push_back(ny);
                 _normals.push_back(nz);
 
+                // compute texture coords
+                float tx = v / (2 * M_PI);
+                float ty = u / (2 * M_PI);
+
+                // add tex coords
+                _texCoords.push_back(tx);
+                _texCoords.push_back(ty);
+
                 // incr angle
                 v += dv;
             }
         }
     }
+
+}
+
+// reload shaders as needed
+void Torus::_reloadShaders(TorusDisplayMode mode)
+{
+    // don't load unnecessarily
+    if (_displayMode == mode)
+        return;
+    
+    vector<string> shaderFiles;
+
+    // set shader files
+    switch (mode)
+    {
+    case eTD_Gouraud:
+        shaderFiles = { "torus.vert", "torus.frag" };
+        break;
+    
+    case eTD_Phong:
+        shaderFiles = { "torus_p.vert", "torus_p.frag" };
+        break;
+
+    case eTD_texture:
+        shaderFiles = { "torus_t.vert", "torus_t.frag" };
+        break;
+
+    default:
+        break;
+    }
+
+    // load shaders
+    _program = ProgramLoader::load(shaderFiles);
 
 }

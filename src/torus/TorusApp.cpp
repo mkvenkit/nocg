@@ -2,12 +2,17 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
+#include <iostream>
+
 #include "Torus.h"
 #include "Axis3D.h"
 #include "Camera.h"
 #include "TorusApp.h"
 
 #define M_PI 3.14159265358979323846f
+
+using std::cout;
+using std::endl;
 
 TorusApp::TorusApp(int width, int height, const string& appName)
     :RenderApp(width, height, appName)
@@ -17,11 +22,23 @@ TorusApp::TorusApp(int width, int height, const string& appName)
 
     _torus = std::make_unique<Torus>(0.5, 2, 64, 64);
     _axis = std::make_unique<Axis3D>(10.0);
+
+    _printHelp();
 }
 
 TorusApp::~TorusApp()
 {
 
+}
+
+void TorusApp::_printHelp()
+{
+    cout << "Display options:" << endl;
+    cout << "Press 1 for Gouraud shading." << endl;
+    cout << "Press 2 for Phong shading." << endl;
+    cout << "Press 3 for Texture." << endl;
+    cout << "Press A to toggle axis." << endl;
+    cout << "Press ESC to exit." << endl;
 }
 
 void TorusApp::render()
@@ -53,16 +70,14 @@ void TorusApp::render()
 
 void TorusApp::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
- 
-    if (key == GLFW_KEY_P && action == GLFW_PRESS) {
-        _torus->togglePhongShading();
-    }
-    else if (key == GLFW_KEY_R && action == GLFW_PRESS) {
-        _torus->toggleRimLight();
-    }
-    else if (key == GLFW_KEY_A && action == GLFW_PRESS) {
-        // toggle axis display
-        _showAxis = !_showAxis;
+    if (action == GLFW_PRESS) {
+        if (key == GLFW_KEY_A && action == GLFW_PRESS) {
+            // toggle axis display
+            _showAxis = !_showAxis;
+        }
+        else {
+            _torus->setDisplayMode((TorusDisplayMode)(key - GLFW_KEY_1));
+        }
     }
 
     // call base class method

@@ -8,6 +8,14 @@
 using std::string;
 using std::vector;
 
+typedef enum _TorusDisplayMode {
+
+    eTD_Gouraud = 0,
+    eTD_Phong,
+    eTD_texture
+
+} TorusDisplayMode;
+
 class Torus : public nocg::Render3D
 {
 
@@ -26,6 +34,11 @@ public:
     // toggle rim lighting 
     void toggleRimLight();
 
+    // toggle texture
+    void toggleTexture();
+
+    // set display mode 
+    void setDisplayMode(TorusDisplayMode mode);
 
 private:
 
@@ -33,6 +46,8 @@ private:
     void _createGeometry();
 
     void _createTorus();
+
+    void _reloadShaders(TorusDisplayMode mode);
 
 
     // DATA 
@@ -48,5 +63,7 @@ private:
 
     // rim lighting 
     bool _rlEnabled = false;
+
+    TorusDisplayMode _displayMode = eTD_Gouraud;
 };
 
