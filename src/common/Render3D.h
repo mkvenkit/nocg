@@ -51,6 +51,9 @@ protected:
     // model matrix - transforms from model to world space
     // initialize to identity
     glm::mat4 _modelMat = glm::mat4(1.0f);
+
+    // a texture unit
+    unsigned int _textureID = 0;
 };
 
 } // namespace nocg

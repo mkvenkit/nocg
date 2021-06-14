@@ -144,10 +144,26 @@ unsigned int loadShaders(vector<string> shaderFiles)
 // loads texture and returns texture id
 unsigned int loadTexture(const string& fileName)
 {
+    // get texture dir
+    // if NOCG_TEXTURE_DIR is not set, assume textures/ 
+    // relative to where exe is run from 
+
+    string filePath;
+    string tex_dir;
+    bool success = getenv("NOCG_TEXTURE_DIR", tex_dir);
+    if (success) {
+        filePath = tex_dir + "/" + fileName;
+    }
+    else {
+        filePath = "./textures/" + fileName;
+    }
+
+    cout << "Looking for texture in " + filePath << "..." << endl;
+
     // load image 
     int width, height;
     int nC;
-    unsigned char* data = stbi_load(fileName.c_str(), &width, &height, &nC, 0);
+    unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &nC, 0);
 
     unsigned int texID = 0;
 

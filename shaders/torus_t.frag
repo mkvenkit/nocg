@@ -1,6 +1,7 @@
 #version 450 core
 
 uniform bool enableRimLight;
+uniform sampler2D sampler;
 
 in VS_OUT {
 	in vec3 N;
@@ -54,6 +55,8 @@ void main()
 		// final color 
 		color = vec4(camb + cdiff + cspec + crim, 1.0);
 	}   
+
+	color = texture(sampler, fs_in.tc);
 }
 
 

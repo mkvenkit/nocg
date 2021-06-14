@@ -24,6 +24,9 @@ Torus::Torus(float r, float R, int nr, int nR)
 
     // create geometry 
     _createGeometry();
+
+    // load texture 
+    _textureID = loadTexture("tex1.jpg");
 }
 
 Torus::~Torus()
@@ -53,6 +56,13 @@ void Torus::render(const glm::mat4& vMat, const glm::mat4& pMat)
     GLint pMatLoc = glGetUniformLocation(_program, "pMat");
     glUniformMatrix4fv(pMatLoc, 1, GL_FALSE, &pMat[0][0]);
 
+    // texture settings
+    if (_displayMode == eTD_texture) {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, _textureID);
+        GLint samplerLoc = glGetUniformLocation(_program, "sampler");
+        glUniform1i(samplerLoc, 0);
+    }
 
     glBindVertexArray(_vao);
 
@@ -126,7 +136,7 @@ void Torus::_createGeometry()
     glVertexArrayAttribBinding(_vao, 2, 2);
 
     // Enable the attribute
-    glEnableVertexArrayAttrib(_vao, 2);
+    glEnableVertexArrayAttrib   (_vao, 2);
 
 
     glBindVertexArray(0);
