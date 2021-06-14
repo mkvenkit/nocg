@@ -47,7 +47,7 @@ void main()
 		crim = rim * rim_col;
 	}
 
-	if (fs_in.tc.x > 0.5) {
+	if (fs_in.tc.y > 0.5) {
 		color = vec4(1.0, 1.0, 0.0, 1.0);
 	}
 	else {
