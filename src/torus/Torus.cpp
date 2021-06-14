@@ -64,32 +64,6 @@ void Torus::render(const glm::mat4& vMat, const glm::mat4& pMat)
     glUseProgram(0);
 }
 
-void Torus::togglePhongShading()
-{
-    // switch shaders
-    if (_usingPhong) {
-        // load program 
-        vector<string> shaderFiles = { "torus.vert", "torus.frag" };
-        _program = ProgramLoader::load(shaderFiles);
-    }
-    else {
-        // load program 
-        vector<string> shaderFiles = { "torus_p.vert", "torus_p.frag" };
-        _program = ProgramLoader::load(shaderFiles);
-    }
-    _usingPhong = !_usingPhong;
-}
-
-void Torus::toggleRimLight()
-{
-    _rlEnabled = !_rlEnabled;
-}
-
-void Torus::toggleTexture()
-{
-
-}
-
 void Torus::setDisplayMode(TorusDisplayMode mode)
 {
     // reload if needed 
@@ -252,6 +226,7 @@ void Torus::_reloadShaders(TorusDisplayMode mode)
     }
 
     // load shaders
-    _program = ProgramLoader::load(shaderFiles);
-
+    if (!shaderFiles.empty()) {
+        _program = ProgramLoader::load(shaderFiles);
+    }
 }

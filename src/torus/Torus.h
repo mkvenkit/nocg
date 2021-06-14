@@ -28,15 +28,6 @@ public:
     // public methods 
     void render(const glm::mat4& vMat, const glm::mat4& pMat);
 
-    // toggle lighting method
-    void togglePhongShading();
-
-    // toggle rim lighting 
-    void toggleRimLight();
-
-    // toggle texture
-    void toggleTexture();
-
     // set display mode 
     void setDisplayMode(TorusDisplayMode mode);
 
