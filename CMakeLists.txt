@@ -14,9 +14,8 @@ find_package(OpenGL)
 add_library(nocg_common 
         src/common/Axis3D.cpp
         src/common/Camera.cpp
-        src/common/ProgramLoader.cpp
+        src/common/Utils.cpp
         src/common/RenderApp.cpp
-        src/common/TextureLoader.cpp
 )
 
 # add glad 

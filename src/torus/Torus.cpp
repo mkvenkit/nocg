@@ -7,7 +7,7 @@
 
 #include <math.h>
 
-#include "ProgramLoader.h"
+#include "Utils.h"
 #include "Torus.h"
 
 #define M_PI 3.14159265358979323846f
@@ -20,7 +20,7 @@ Torus::Torus(float r, float R, int nr, int nR)
 {
     // load program 
     vector<string> shaderFiles = { "torus_p.vert", "torus_p.frag" };
-    _program = ProgramLoader::load(shaderFiles);
+    _program = loadShaders(shaderFiles);
 
     // create geometry 
     _createGeometry();
@@ -227,6 +227,6 @@ void Torus::_reloadShaders(TorusDisplayMode mode)
 
     // load shaders
     if (!shaderFiles.empty()) {
-        _program = ProgramLoader::load(shaderFiles);
+        _program = loadShaders(shaderFiles);
     }
 }

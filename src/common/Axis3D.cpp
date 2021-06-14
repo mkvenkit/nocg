@@ -5,7 +5,7 @@
 #include <glm/common.hpp>
 #include <glm/matrix.hpp>
 
-#include "ProgramLoader.h"
+#include "Utils.h"
 
 #include "Axis3D.h"
 
@@ -16,7 +16,7 @@ Axis3D::Axis3D(float length)
 {
     // load program 
     vector<string> shaderFiles = { "axis3d.vert", "axis3d.frag" };
-    _program = ProgramLoader::load(shaderFiles);
+    _program = loadShaders(shaderFiles);
 
     // create geometry 
     _createGeometry();
