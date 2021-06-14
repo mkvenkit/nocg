@@ -2,7 +2,7 @@
 
 layout(location = 0) in vec3 aVert;
 layout(location = 1) in vec3 aNorm;
-layout(location = 1) in vec2 aTexCoord;
+layout(location = 2) in vec2 aTexCoord;
 
 uniform mat4 vMat;
 uniform mat4 pMat;
