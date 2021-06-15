@@ -32,6 +32,9 @@ public:
     // set display mode 
     void setDisplayMode(TorusDisplayMode mode);
 
+    // rim lighting
+    void toggleRimLighting() { _rlEnabled = !_rlEnabled; }
+
 private:
 
     // METHODS 

@@ -38,6 +38,7 @@ void TorusApp::_printHelp()
     cout << "Press 2 for Phong shading." << endl;
     cout << "Press 3 for Texture." << endl;
     cout << "Press 4 for Procedural Texture." << endl;
+    cout << "Press R to toggle rim lighting." << endl;
     cout << "Press A to toggle axis." << endl;
     cout << "Press ESC to exit." << endl;
 }
@@ -72,9 +73,13 @@ void TorusApp::render()
 void TorusApp::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (action == GLFW_PRESS) {
-        if (key == GLFW_KEY_A && action == GLFW_PRESS) {
+        if (key == GLFW_KEY_A) {
             // toggle axis display
             _showAxis = !_showAxis;
+        }
+        if (key == GLFW_KEY_R) {
+            // toggle rim lighting
+            _torus->toggleRimLighting();
         }
         else {
             _torus->setDisplayMode((TorusDisplayMode)(key - GLFW_KEY_1));

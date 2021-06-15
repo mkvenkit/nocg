@@ -21,12 +21,16 @@ void main()
 	vec3 L = normalize(fs_in.L);
 	vec3 V = normalize(fs_in.V);
 
+	// stripes 
+	float val = clamp(round(sin( 20 * fs_in.tc.y * 3.14156)), 0, 1);
+	vec3 col = mix(vec3(1.0, 1.0, 0.0), vec3(1.0, 0.0, 0.0), val);
+
 	// ambient 
 	vec3 camb = vec3(0.1);
 
 	// diffuse 
     float diff = max(dot(N, L), 0.0);
-	vec3 Ka = vec3(1.0, 0.0, 0.0);
+	vec3 Ka = col;
 	float Ia = 0.5;
 	vec3 cdiff = diff*Ka*Ia;
 
@@ -50,9 +54,7 @@ void main()
 		crim = rim * rim_col;
 	}
 
-	// stripes 
-	float val = clamp(round(sin( 20 * fs_in.tc.y * 3.14156)), 0, 1);
-	color = vec4(mix(vec3(1.0, 1.0, 0.0), vec3(1.0, 0.0, 0.0), val), 1.0);
+	color = vec4(camb + cdiff + cspec + crim, 1.0);
 }
 
 

@@ -22,9 +22,12 @@ void main()
 	// ambient 
 	vec3 camb = vec3(0.1);
 
+	// texture 
+	vec3 texCol = texture(sampler, fs_in.tc).xyz;
+
 	// diffuse 
     float diff = max(dot(N, L), 0.0);
-	vec3 Ka = vec3(1.0, 0.0, 0.0);
+	vec3 Ka = texCol;
 	float Ia = 0.5;
 	vec3 cdiff = diff*Ka*Ia;
 
@@ -48,15 +51,9 @@ void main()
 		crim = rim * rim_col;
 	}
 
-	if (fs_in.tc.y > 0.5) {
-		color = vec4(1.0, 1.0, 0.0, 1.0);
-	}
-	else {
-		// final color 
-		color = vec4(camb + cdiff + cspec + crim, 1.0);
-	}   
 
-	color = texture(sampler, fs_in.tc);
+	// final color 
+	color = vec4(camb + cdiff + cspec + crim, 1.0);
 }
 
 
