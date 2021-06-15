@@ -37,6 +37,7 @@ void TorusApp::_printHelp()
     cout << "Press 1 for Gouraud shading." << endl;
     cout << "Press 2 for Phong shading." << endl;
     cout << "Press 3 for Texture." << endl;
+    cout << "Press 4 for Procedural Texture." << endl;
     cout << "Press A to toggle axis." << endl;
     cout << "Press ESC to exit." << endl;
 }

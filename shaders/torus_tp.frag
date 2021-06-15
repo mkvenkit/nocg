@@ -12,6 +12,8 @@ in VS_OUT {
 
 out vec4 color;
 
+#define M_PI 3.14159265358979323846f
+
 void main()
 {
 	// normalise vectors
@@ -48,15 +50,9 @@ void main()
 		crim = rim * rim_col;
 	}
 
-	if (fs_in.tc.x > 0.5) {
-		color = vec4(1.0, 1.0, 0.0, 1.0);
-	}
-	else {
-		// final color 
-		color = vec4(camb + cdiff + cspec + crim, 1.0);
-	}   
-
-	//color = texture(sampler, fs_in.tc);
+	// stripes 
+	float val = clamp(round(sin( 20 * fs_in.tc.y * 3.14156)), 0, 1);
+	color = vec4(mix(vec3(1.0, 1.0, 0.0), vec3(1.0, 0.0, 0.0), val), 1.0);
 }
 
 

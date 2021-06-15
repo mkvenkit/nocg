@@ -12,7 +12,8 @@ typedef enum _TorusDisplayMode {
 
     eTD_Gouraud = 0,
     eTD_Phong,
-    eTD_texture
+    eTD_Texture,
+    eTD_ProcTexture,
 
 } TorusDisplayMode;
 

@@ -57,7 +57,7 @@ void Torus::render(const glm::mat4& vMat, const glm::mat4& pMat)
     glUniformMatrix4fv(pMatLoc, 1, GL_FALSE, &pMat[0][0]);
 
     // texture settings
-    if (_displayMode == eTD_texture) {
+    if (_displayMode == eTD_Texture) {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, _textureID);
         GLint samplerLoc = glGetUniformLocation(_program, "sampler");
@@ -198,10 +198,11 @@ void Torus::_createTorus()
                 // add tex coords
                 _texCoords.push_back(tx);
                 _texCoords.push_back(ty);
-
-                // incr angle
-                v += dv;
             }
+
+            // incr angle
+            v += dv;
+
         }
     }
 
@@ -227,8 +228,12 @@ void Torus::_reloadShaders(TorusDisplayMode mode)
         shaderFiles = { "torus_p.vert", "torus_p.frag" };
         break;
 
-    case eTD_texture:
+    case eTD_Texture:
         shaderFiles = { "torus_t.vert", "torus_t.frag" };
+        break;
+
+    case eTD_ProcTexture:
+        shaderFiles = { "torus_tp.vert", "torus_tp.frag" };
         break;
 
     default:
