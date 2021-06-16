@@ -23,7 +23,7 @@ void main()
 	vec3 camb = vec3(0.1);
 
 	// texture 
-	vec3 texCol = texture(sampler, fs_in.tc).xyz;
+	vec3 texCol = texture(sampler, 5*fs_in.tc).xyz;
 
 	// diffuse 
     float diff = max(dot(N, L), 0.0);

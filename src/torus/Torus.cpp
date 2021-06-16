@@ -82,13 +82,15 @@ void Torus::setDisplayMode(TorusDisplayMode mode)
 
     // load texture 
     string strTexFileName;
+    bool repeat = true;
     if (mode == eTD_Texture) {
         strTexFileName = "tex1.jpg";
     }
     else if (mode == eTD_BumpMapping) {
         strTexFileName = "bm.png";
+        repeat = true;
     }
-    _textureID = loadTexture(strTexFileName);
+    _textureID = loadTexture(strTexFileName, repeat);
 }
 
 void Torus::_createGeometry()
