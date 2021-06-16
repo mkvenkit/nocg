@@ -141,7 +141,7 @@ void Torus::_createGeometry()
     // tangents 
 
     // Initialize the first buffer
-    glNamedBufferStorage(buffer[3], sizeof(float) * _texCoords.size(), _texCoords.data(), 0);
+    glNamedBufferStorage(buffer[3], sizeof(float) * _tangents.size(), _tangents.data(), 0);
     // Bind it to the vertex array - offset zero, stride = sizeof(vec3)
     glVertexArrayVertexBuffer(_vao, 3, buffer[3], 0, 3 * sizeof(float));
     // Tell OpenGL what the format of the attribute is
@@ -217,12 +217,14 @@ void Torus::_createTorus()
                 // add tangent vector
                 // T = d(S)/du 
                 // S(u) is the circle at constant v
-                float tgx = -(_R + _r * cos(v)) * sin(uu);
-                float tgy =  (_R + _r * cos(v)) * cos(uu);
-                float tgz = 0.0f;
-                _tangents.push_back(tgx);
-                _tangents.push_back(tgy);
-                _tangents.push_back(tgz);
+                glm::vec3 tg(  -(_R + _r * cos(v)) * sin(uu),
+                                (_R + _r * cos(v)) * cos(uu),
+                                0.0f
+                            );
+                tg = glm::normalize(tg);
+                _tangents.push_back(tg.x);
+                _tangents.push_back(tg.y);
+                _tangents.push_back(tg.z);
             }
 
             // incr angle

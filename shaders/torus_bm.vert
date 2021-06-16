@@ -15,6 +15,7 @@ out VS_OUT {
 	out vec3 V;
 	out vec2 tc;
 	out vec3 tg;
+	out vec3 bn;
 } vs_out;
 
 void main()
@@ -39,5 +40,8 @@ void main()
 
 	// tangent 
 	vs_out.tg = aTangent;
+
+	// binormal
+	vs_out.bn = cross(aNorm, aTangent);
 }
 
