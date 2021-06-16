@@ -8,6 +8,7 @@ in VS_OUT {
 	in vec3 L;
 	in vec3 V;
 	in vec2 tc;
+	in vec3 tg;
 } fs_in;
 
 out vec4 color;
@@ -55,6 +56,8 @@ void main()
 	}
 
 	color = vec4(camb + cdiff + cspec + crim, 1.0);
+
+	color = vec4(fs_in.tg, 1.0);
 }
 
 

@@ -14,6 +14,7 @@ typedef enum _TorusDisplayMode {
     eTD_Phong,
     eTD_Texture,
     eTD_ProcTexture,
+    eTD_BumpMapping
 
 } TorusDisplayMode;
 
@@ -60,5 +61,8 @@ private:
     bool _rlEnabled = false;
 
     TorusDisplayMode _displayMode = eTD_Gouraud;
+
+    // tangent 
+    vector<float> _tangents;
 };
 

@@ -54,6 +54,13 @@ void main()
 
 	// final color 
 	color = vec4(camb + cdiff + cspec + crim, 1.0);
+
+	if (fs_in.tc.x > 0.5) {
+		color = vec4(1.0, 1.0, 0.0, 1.0);
+	}
+	else {
+		color = vec4(1.0, 0.0, 0.0, 1.0);
+	}
 }
 
 

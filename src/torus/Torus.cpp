@@ -90,11 +90,11 @@ void Torus::_createGeometry()
     _createTorus();
     _vertexCount = _vertices.size() / 3;
 
-    GLuint buffer[3];
+    GLuint buffer[4];
 
 
     // create buffers
-    glCreateBuffers(3, buffer);
+    glCreateBuffers(4, buffer);
 
     // vertices 
     
@@ -136,7 +136,21 @@ void Torus::_createGeometry()
     glVertexArrayAttribBinding(_vao, 2, 2);
 
     // Enable the attribute
-    glEnableVertexArrayAttrib   (_vao, 2);
+    glEnableVertexArrayAttrib(_vao, 2);
+
+    // tangents 
+
+    // Initialize the first buffer
+    glNamedBufferStorage(buffer[3], sizeof(float) * _texCoords.size(), _texCoords.data(), 0);
+    // Bind it to the vertex array - offset zero, stride = sizeof(vec3)
+    glVertexArrayVertexBuffer(_vao, 3, buffer[3], 0, 3 * sizeof(float));
+    // Tell OpenGL what the format of the attribute is
+    glVertexArrayAttribFormat(_vao, 3, 3, GL_FLOAT, GL_FALSE, 0);
+    // Tell OpenGL which vertex buffer binding to use for this attribute
+    glVertexArrayAttribBinding(_vao, 3, 3);
+
+    // Enable the attribute
+    glEnableVertexArrayAttrib(_vao, 3);
 
 
     glBindVertexArray(0);
@@ -149,6 +163,7 @@ void Torus::_createTorus()
 {
     // clear memory allocated for vertex data 
     clear();
+    _tangents.clear();
 
     // A torus is given by the paramteric equations:
     // x = (R + r cos(v))cos(u)
@@ -192,12 +207,22 @@ void Torus::_createTorus()
                 _normals.push_back(nz);
 
                 // compute texture coords
-                float tx = v / (2 * M_PI);
-                float ty = u / (2 * M_PI);
+                float tx = u / (2 * M_PI);
+                float ty = v / (2 * M_PI);
 
                 // add tex coords
                 _texCoords.push_back(tx);
                 _texCoords.push_back(ty);
+
+                // add tangent vector
+                // T = d(S)/du 
+                // S(u) is the circle at constant v
+                float tgx = -(_R + _r * cos(v)) * sin(uu);
+                float tgy =  (_R + _r * cos(v)) * cos(uu);
+                float tgz = 0.0f;
+                _tangents.push_back(tgx);
+                _tangents.push_back(tgy);
+                _tangents.push_back(tgz);
             }
 
             // incr angle
@@ -234,6 +259,10 @@ void Torus::_reloadShaders(TorusDisplayMode mode)
 
     case eTD_ProcTexture:
         shaderFiles = { "torus_tp.vert", "torus_tp.frag" };
+        break;
+
+    case eTD_BumpMapping:
+        shaderFiles = { "torus_bm.vert", "torus_bm.frag" };
         break;
 
     default:
