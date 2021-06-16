@@ -58,7 +58,7 @@ void main()
 
 	color = vec4(camb + cdiff + cspec + crim, 1.0);
 
-	color = vec4(normalize(fs_in.tg), 1.0);
+	color = vec4(normalize(0.5*(fs_in.tg + 1.0)), 1.0);
 }
 
 

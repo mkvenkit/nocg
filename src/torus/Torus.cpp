@@ -6,6 +6,7 @@
 #include <glm/matrix.hpp>
 
 #include <math.h>
+#include <iostream>
 
 #include "Utils.h"
 #include "Torus.h"
@@ -225,6 +226,8 @@ void Torus::_createTorus()
                 _tangents.push_back(tg.x);
                 _tangents.push_back(tg.y);
                 _tangents.push_back(tg.z);
+
+                //std::cout << tg.x << "," << tg.y << "," << tg.z << std::endl;
             }
 
             // incr angle
