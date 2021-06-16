@@ -26,8 +26,6 @@ Torus::Torus(float r, float R, int nr, int nR)
     // create geometry 
     _createGeometry();
 
-    // load texture 
-    _textureID = loadTexture("tex1.jpg");
 }
 
 Torus::~Torus()
@@ -81,6 +79,16 @@ void Torus::setDisplayMode(TorusDisplayMode mode)
     _reloadShaders(mode);
     // set current mode
     _displayMode = mode;
+
+    // load texture 
+    string strTexFileName;
+    if (mode == eTD_Texture) {
+        strTexFileName = "tex1.jpg";
+    }
+    else if (mode == eTD_BumpMapping) {
+        strTexFileName = "bm.png";
+    }
+    _textureID = loadTexture(strTexFileName);
 }
 
 void Torus::_createGeometry()

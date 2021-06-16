@@ -43,5 +43,10 @@ void main()
 
 	// binormal
 	vs_out.bn = cross(aNorm, aTangent);
+
+	// compute TBN matrix 
+	mat3 matTBN = mat3(aTangent, vs_out.bn, aNorm);
+
+
 }
 
