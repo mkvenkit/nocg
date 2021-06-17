@@ -26,7 +26,7 @@ Plane::Plane(const vec2& dims)
     _createGeometry();
 
     // load texture
-    _textureID = loadTexture("bm.png", true);
+    _textureID = loadTexture("text.png", true);
 }
 
 Plane::~Plane()

@@ -22,11 +22,18 @@ void main()
 	// tex coord
 	vs_out.tc = aTexCoord;
 
+	// normal in world coords
+	mat4 nMat = transpose(inverse(vMat * mMat));
+	vec3 N = (nMat* vec4(aNorm, 1.0)).xyz;
+
+	// tangent in world space 
+	vec3 T = (nMat* vec4(aTangent, 1.0)).xyz;
+
 	// binormal
-	vec3 bn = cross(aNorm, aTangent);
+	vec3 B = cross(N, T);
 
 	// compute TBN matrix 
-	mat3 matTBN = mat3(aTangent, bn, aNorm);
+	mat3 matTBN = mat3(T, B, N);
 
 	// vertex in world coords
 	vec3 wcVert = (vMat * mMat * vec4(aVert, 1.0)).xyz;

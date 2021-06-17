@@ -56,12 +56,12 @@ void Torus::render(const glm::mat4& vMat, const glm::mat4& pMat)
     glUniformMatrix4fv(pMatLoc, 1, GL_FALSE, &pMat[0][0]);
 
     // texture settings
-    if (_displayMode == eTD_Texture) {
-        glActiveTexture(GL_TEXTURE0);
+    //if (_displayMode == eTD_Texture) {
+        glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, _textureID);
         GLint samplerLoc = glGetUniformLocation(_program, "sampler");
-        glUniform1i(samplerLoc, 0);
-    }
+        glUniform1i(samplerLoc, 1);
+    //}
 
     glBindVertexArray(_vao);
 
