@@ -23,7 +23,7 @@ void main()
 	vec3 camb = vec3(0.1);
 
 	// texture 
-	vec3 texCol = texture(sampler, 5*fs_in.tc).xyz;
+	vec3 texCol = texture(sampler, fs_in.tc).xyz;
 
 	// diffuse 
     float diff = max(dot(N, L), 0.0);
@@ -54,6 +54,8 @@ void main()
 
 	// final color 
 	color = vec4(camb + cdiff + cspec + crim, 1.0);
+
+	color = vec4(texCol, 1.0);
 }
 
 

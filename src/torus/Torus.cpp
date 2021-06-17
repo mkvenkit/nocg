@@ -84,7 +84,7 @@ void Torus::setDisplayMode(TorusDisplayMode mode)
     string strTexFileName;
     bool repeat = true;
     if (mode == eTD_Texture) {
-        strTexFileName = "tex1.jpg";
+        strTexFileName = "text.png";
     }
     else if (mode == eTD_BumpMapping) {
         strTexFileName = "bm.png";
@@ -218,12 +218,14 @@ void Torus::_createTorus()
                 _normals.push_back(nz);
 
                 // compute texture coords
-                float tx = u / (2 * M_PI);
+                float tx = uu / (2 * M_PI);
                 float ty = v / (2 * M_PI);
 
                 // add tex coords
                 _texCoords.push_back(tx);
                 _texCoords.push_back(ty);
+
+                // std::cout << tx << "," << ty << std::endl;
 
                 // add tangent vector
                 // T = d(S)/du 

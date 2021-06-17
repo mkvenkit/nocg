@@ -163,6 +163,8 @@ unsigned int loadTexture(const string& fileName, bool repeat)
     // load image 
     int width, height;
     int nC;
+    // adjust y axis for texture convention
+    stbi_set_flip_vertically_on_load(true);
     unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &nC, 0);
 
     unsigned int texID = 0;
