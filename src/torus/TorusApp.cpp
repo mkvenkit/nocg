@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "Torus.h"
+#include "Plane.h"
 #include "Axis3D.h"
 #include "Camera.h"
 #include "TorusApp.h"
@@ -22,6 +23,7 @@ TorusApp::TorusApp(int width, int height, const string& appName)
 
     _torus = std::make_unique<Torus>(0.5, 2, 64, 64);
     _axis = std::make_unique<Axis3D>(10.0);
+    _plane = std::make_unique<Plane>(glm::vec2(5.f, 5.f));
 
     _printHelp();
 }
@@ -62,6 +64,9 @@ void TorusApp::render()
 
     // render torus 
     _torus->render(vMat, pMat);
+
+    // render plane
+    _plane->render(vMat, pMat);
 
     // render axis
     if (_showAxis) {

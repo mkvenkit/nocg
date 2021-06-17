@@ -4,6 +4,7 @@ uniform bool enableRimLight;
 uniform sampler2D sampler;
 
 in VS_OUT {
+	in vec3 N;
 	in vec3 L;
 	in vec3 V;
 	in vec2 tc;
@@ -11,24 +12,22 @@ in VS_OUT {
 
 out vec4 color;
 
-#define M_PI 3.14159265358979323846f
-
 void main()
 {
 	// normalise vectors
+	vec3 N = normalize(fs_in.N);
 	vec3 L = normalize(fs_in.L);
 	vec3 V = normalize(fs_in.V);
-
-	// stripes 
-	vec2 tc = vec2(10*fs_in.tc.x, fs_in.tc.y);
-	vec3 N = normalize(2.0*texture(sampler, tc).rgb - vec3(1.0));
 
 	// ambient 
 	vec3 camb = vec3(0.1);
 
+	// texture 
+	vec3 texCol = texture(sampler, 5*fs_in.tc).xyz;
+
 	// diffuse 
     float diff = max(dot(N, L), 0.0);
-	vec3 Ka = vec3(1.0, 0.0, 0.0);
+	vec3 Ka = texCol;
 	float Ia = 0.5;
 	vec3 cdiff = diff*Ka*Ia;
 
@@ -52,9 +51,9 @@ void main()
 		crim = rim * rim_col;
 	}
 
-	color = vec4(camb + cdiff + cspec + crim, 1.0);
 
-	//color = texture(sampler, vec2(4*fs_in.tc.x, fs_in.tc.y)).rgba;
+	// final color 
+	color = vec4(camb + cdiff + cspec + crim, 1.0);
 }
 
 

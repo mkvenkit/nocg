@@ -15,6 +15,7 @@ add_library(nocg_common
         src/common/Axis3D.cpp
         src/common/Camera.cpp
         src/common/Utils.cpp
+        src/common/Plane.cpp
         src/common/RenderApp.cpp
 )
 

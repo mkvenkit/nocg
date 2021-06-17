@@ -10,6 +10,7 @@ using std::string;
 class Torus;
 class Axis3D;
 class Camera;
+class Plane;
 
 class TorusApp :
     public nocg::RenderApp
@@ -34,6 +35,7 @@ public:
 private:
 
     std::unique_ptr<Torus> _torus;
+    std::unique_ptr<Plane> _plane;
 
     std::unique_ptr<Axis3D> _axis;
     std::unique_ptr<Camera> _camera;
