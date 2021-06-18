@@ -87,7 +87,21 @@ void TorusApp::keyCallback(GLFWwindow* window, int key, int scancode, int action
             _torus->toggleRimLighting();
         }
         else {
-            _torus->setDisplayMode((TorusDisplayMode)(key - GLFW_KEY_1));
+            if (key == GLFW_KEY_1) {
+                _torus->setDisplayMode(eTD_Gouraud);
+            }
+            else if (key == GLFW_KEY_2) {
+                _torus->setDisplayMode(eTD_Phong);
+            }
+            else if (key == GLFW_KEY_3) {
+                _torus->setDisplayMode(eTD_Texture);
+            }
+            else if (key == GLFW_KEY_4) {
+                _torus->setDisplayMode(eTD_ProcTexture);
+            }
+            else if (key == GLFW_KEY_5) {
+                _torus->setDisplayMode(eTD_BumpMapping);
+            }
         }
     }
 

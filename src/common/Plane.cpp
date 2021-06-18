@@ -64,6 +64,7 @@ void Plane::render(const glm::mat4& vMat, const glm::mat4& pMat)
 
     glBindVertexArray(0);
     glUseProgram(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Plane::_createPlane()
