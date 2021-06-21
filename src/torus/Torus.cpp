@@ -20,7 +20,7 @@ Torus::Torus(float r, float R, int nr, int nR)
     Render3D()
 {
     // load program 
-    vector<string> shaderFiles = { "torus_p.vert", "torus_p.frag" };
+    vector<string> shaderFiles = { "torus.vert", "torus.frag" };
     _program = loadShaders(shaderFiles);
 
     // create geometry 
@@ -41,11 +41,15 @@ void Torus::render(const glm::mat4& vMat, const glm::mat4& pMat)
     GLint rlLoc = glGetUniformLocation(_program, "enableRimLight");
     glUniform1f(rlLoc, _rlEnabled ? 1 : 0);
 
+    // compute normal matrix 
+    // It's the transpose of the inverse of the modelview matrix 
+    glm::mat4 nMat = glm::transpose(glm::inverse(vMat * _modelMat));
+    GLint nMatLoc = glGetUniformLocation(_program, "nMat");
+    glUniformMatrix4fv(nMatLoc, 1, GL_FALSE, &nMat[0][0]);
 
     // set model matrix
     GLint mMatLoc = glGetUniformLocation(_program, "mMat");
     glUniformMatrix4fv(mMatLoc, 1, GL_FALSE, &_modelMat[0][0]);
-
 
     // set view matrix
     GLint vMatLoc = glGetUniformLocation(_program, "vMat");

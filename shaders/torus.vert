@@ -6,17 +6,16 @@ layout(location = 1) in vec3 aNorm;
 uniform mat4 vMat;
 uniform mat4 pMat;
 uniform mat4 mMat;
+uniform mat4 nMat;
 
 out vec3 color;
 out vec3 norm;
-
 
 void main()
 {
 	// vertex in world coords
 	vec3 wcVert = (vMat * mMat * vec4(aVert, 1.0)).xyz;
 	// normal in world coords
-	mat4 nMat = transpose(inverse(vMat * mMat));
 	vec3 N = normalize((nMat * vec4(aNorm, 1.0)).xyz);
 
 	// ambient 
