@@ -43,7 +43,7 @@ void main()
 	vs_out.V = matTBN * V;
 
 	// light position 	
-	vec3 lightPos = vec3(0.0, 0.0, 10.0);
+	vec3 lightPos = vec3(10.0, 10.0, 10.0);
 	vec3 L = lightPos - wcVert;
 	// transform to tangent space 
 	vs_out.L = matTBN * L;

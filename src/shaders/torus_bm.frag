@@ -20,7 +20,7 @@ void main()
 	vec3 V = normalize(fs_in.V);
 
 	// stripes 
-	vec2 tc = vec2(2*fs_in.tc.x, fs_in.tc.y);
+	vec2 tc = vec2(4*fs_in.tc.x, fs_in.tc.y);
 	vec3 N = normalize(2.0*texture(sampler, tc).rgb - vec3(1.0));
 
 	// ambient 
