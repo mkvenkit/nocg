@@ -93,7 +93,7 @@ void Torus::setDisplayMode(TorusDisplayMode mode)
         strTexFileName = "text.png";
     }
     else if (mode == eTD_BumpMapping) {
-        strTexFileName = "bm.png";
+        strTexFileName = "sph.png";
         repeat = true;
     }
     _textureID = loadTexture(strTexFileName, repeat);

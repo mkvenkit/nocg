@@ -54,8 +54,6 @@ void main()
 
 	// final color 
 	color = vec4(camb + cdiff + cspec + crim, 1.0);
-
-	color = vec4(texCol, 1.0);
 }
 
 

@@ -20,7 +20,7 @@ void main()
 	vec3 V = normalize(fs_in.V);
 
 	// stripes 
-	vec2 tc = vec2(4*fs_in.tc.x, fs_in.tc.y);
+	vec2 tc = vec2(20*fs_in.tc.x, 8*fs_in.tc.y);
 	vec3 N = normalize(2.0*texture(sampler, tc).rgb - vec3(1.0));
 
 	// ambient 
@@ -28,7 +28,7 @@ void main()
 
 	// diffuse 
     float diff = max(dot(N, L), 0.0);
-	vec3 Ka = vec3(1.0, 0.0, 0.0);
+	vec3 Ka = vec3(111, 183, 214)/255.0; //vec3(1.0, 0.0, 0.0);
 	float Ia = 0.5;
 	vec3 cdiff = diff*Ka*Ia;
 

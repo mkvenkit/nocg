@@ -23,7 +23,9 @@ void main()
 
 	// stripes 
 	float val = clamp(round(sin( 20 * fs_in.tc.x * 3.14156)), 0, 1);
-	vec3 col = mix(vec3(1.0, 1.0, 0.0), vec3(1.0, 0.0, 0.0), val);
+	vec3 col1 = vec3(255, 237, 81) / 255.0;
+	vec3 col2 = vec3(133, 202, 93) / 255.0;
+	vec3 col = mix(col1, col2, val);
 
 	// ambient 
 	vec3 camb = vec3(0.1);

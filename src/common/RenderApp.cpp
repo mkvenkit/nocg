@@ -127,7 +127,7 @@ void RenderApp::_glfwInit()
 
 void RenderApp::_glInit()
 {
-    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glClearColor(0.2, 0.2, 0.2, 1.0);
     glEnable(GL_DEPTH_TEST);
 
     cout << "GL_VERSION: " << glGetString(GL_VERSION) << endl;
