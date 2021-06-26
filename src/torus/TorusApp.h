@@ -41,5 +41,6 @@ private:
     std::unique_ptr<Camera> _camera;
 
     bool _showAxis = true;
+    bool _showPlane = false;
 };
 

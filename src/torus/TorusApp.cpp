@@ -42,6 +42,7 @@ void TorusApp::_printHelp()
     cout << "Press 4 for Procedural Texture." << endl;
     cout << "Press R to toggle rim lighting." << endl;
     cout << "Press A to toggle axis." << endl;
+    cout << "Press P to toggle plane." << endl;
     cout << "Press ESC to exit." << endl;
 }
 
@@ -66,7 +67,9 @@ void TorusApp::render()
     _torus->render(vMat, pMat);
 
     // render plane
-    _plane->render(vMat, pMat);
+    if (_showPlane) {
+        _plane->render(vMat, pMat);
+    }
 
     // render axis
     if (_showAxis) {
@@ -82,7 +85,11 @@ void TorusApp::keyCallback(GLFWwindow* window, int key, int scancode, int action
             // toggle axis display
             _showAxis = !_showAxis;
         }
-        if (key == GLFW_KEY_R) {
+        else if (key == GLFW_KEY_P) {
+            // toggle axis display
+            _showPlane = !_showPlane;
+        }
+        else if (key == GLFW_KEY_R) {
             // toggle rim lighting
             _torus->toggleRimLighting();
         }
