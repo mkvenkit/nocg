@@ -8,7 +8,7 @@ By: Mahesh Venkitachalam ([electronut.in][1])
 
 ### Windows 
 
-Install Visual Studio 19. Clone this repo, create a *build* directory, cd into it from a VS 2019 cmd prompt and do:
+Install Visual Studio 2019. Clone this repo, create a *build* directory, cd into it from a VS 2019 cmd prompt and do:
 
 ```
 cmake "Visual Studio 16" ..
