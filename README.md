@@ -4,9 +4,9 @@ Exploratory programs on various topics related to 3D computer graphics.
 
 By: Mahesh Venkitachalam ([electronut.in][1])
 
-# Building the Examples
+## Building the Examples
 
-## Windows 
+### Windows 
 
 Install Visual Studio 19. Clone this repo, create a *build* directory, cd into it from a VS 2019 cmd prompt and do:
 
@@ -18,7 +18,7 @@ This will create *nocg.sln* which you can load using Visual Studio. To run the t
 
 I have not tested the build with any other OS, but Linux support is coming soon.
 
-# Examples 
+## Examples 
 
 | **Name** | **Description**|
 |---|---|
