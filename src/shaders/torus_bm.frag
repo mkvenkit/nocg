@@ -19,7 +19,13 @@ void main()
 	vec3 L = normalize(fs_in.L);
 	vec3 V = normalize(fs_in.V);
 
-	// stripes 
+    // stripes 
+	float val = clamp(round(sin( 20 * fs_in.tc.x * 3.14156)), 0, 1);
+	vec3 col1 = vec3(255, 237, 81) / 255.0;
+	vec3 col2 = vec3(133, 202, 93) / 255.0;
+	vec3 col = mix(col1, col2, val);
+
+	// bump map 
 	vec2 tc = vec2(20*fs_in.tc.x, 8*fs_in.tc.y);
 	vec3 N = normalize(2.0*texture(sampler, tc).rgb - vec3(1.0));
 
@@ -28,7 +34,7 @@ void main()
 
 	// diffuse 
     float diff = max(dot(N, L), 0.0);
-	vec3 Ka = vec3(111, 183, 214)/255.0; //vec3(1.0, 0.0, 0.0);
+	vec3 Ka = col; 
 	float Ia = 0.5;
 	vec3 cdiff = diff*Ka*Ia;
 
