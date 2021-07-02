@@ -15,6 +15,8 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <map>
+#include <cctype>
 
 using std::string;
 using std::vector;
@@ -22,6 +24,7 @@ using std::cout;
 using std::endl;
 using std::ofstream;
 using std::ifstream;
+using std::map;
 
 #include <filesystem>
 namespace fs = std::filesystem;
@@ -119,20 +122,35 @@ unsigned int loadShaders(vector<string> shaderFiles)
 
     GLuint program = glCreateProgram();
 
+    //GL_GEOMETRY_SHADER
+
+    // map of file ext to shader type
+    map<string, GLenum> stMap = {{".vert", GL_VERTEX_SHADER}, {".frag", GL_FRAGMENT_SHADER}, 
+                                {".geom", GL_GEOMETRY_SHADER}
+    };
+
     for (auto& fileName : shaderFiles) {
 
         fs::path p(fileName);
-        const auto& fext = p.extension();
+        // get ext in lowercase
+        string fext = p.extension().string();
+        for (auto & c: fext) {
+            c = tolower(c);
+        }
         fileName = shader_dir + "/" + fileName;
 
-        if (fext == ".vert") {
-            GLuint shader = loadShader(GL_VERTEX_SHADER, fileName);
+        try
+        {
+            // get shader type
+            GLenum shaderType = stMap[fext];
+            // load and attach 
+            GLuint shader = loadShader(shaderType, fileName);
             glAttachShader(program, shader);
         }
-        else if (fext == ".frag") {
-            GLuint shader = loadShader(GL_FRAGMENT_SHADER, fileName);
-            glAttachShader(program, shader);
-        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }        
     }
 
     glLinkProgram(program);

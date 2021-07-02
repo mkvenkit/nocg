@@ -12,25 +12,35 @@ find_package(OpenGL)
 
 # add common library 
 add_library(nocg_common 
-        src/common/Axis3D.cpp
-        src/common/Camera.cpp
-        src/common/Utils.cpp
-        src/common/Plane.cpp
-        src/common/RenderApp.cpp
+    src/common/Axis3D.cpp
+    src/common/Camera.cpp
+    src/common/Utils.cpp
+    src/common/Plane.cpp
+    src/common/RenderApp.cpp
 )
 
 # add glad 
 add_library(glad 
-        external/glad/src/glad.c)
+    external/glad/src/glad.c)
 
 set(COMMON_LIBS nocg_common glad glfw3 ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES})
 
+# torus
 add_executable(torus 
-        src/torus/Torus.cpp
-        src/torus/TorusApp.cpp
-        src/torus/main.cpp
+    src/torus/Torus.cpp
+    src/torus/TorusApp.cpp
+    src/torus/main.cpp
 )
 target_link_libraries(torus PUBLIC ${COMMON_LIBS})
+
+# Cube - Tessellation and Geometry shaders
+add_executable(cubetg
+    src/cubetg/CubeTGApp.cpp
+    src/cubetg/PlaneTG.cpp
+    src/cubetg/main.cpp
+)
+target_link_libraries(cubetg PUBLIC ${COMMON_LIBS})
+
 
 include_directories(src/common)
 include_directories(external/glfw-3.3.4/include)

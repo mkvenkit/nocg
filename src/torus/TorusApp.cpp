@@ -4,13 +4,12 @@
 
 #include <iostream>
 
+#include "nocg_common.h"
 #include "Torus.h"
 #include "Plane.h"
 #include "Axis3D.h"
 #include "Camera.h"
 #include "TorusApp.h"
-
-#define M_PI 3.14159265358979323846f
 
 using std::cout;
 using std::endl;

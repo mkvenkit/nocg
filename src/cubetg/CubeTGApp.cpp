@@ -1,0 +1,68 @@
+#include <glad/glad.h>
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
+#include <iostream>
+
+#include "nocg_common.h"
+#include "PlaneTG.h"
+#include "Axis3D.h"
+
+#include "CubeTGApp.h"
+
+CubeTGApp::CubeTGApp(int width, int height, const string& appName)
+    :RenderApp(width, height, appName)
+{
+    // set time step interval for animation
+    setTStep(0.1);
+
+    _axis = std::make_unique<Axis3D>(10.0);
+    _plane = std::make_unique<PlaneTG>(glm::vec2(2.f, 2.f));
+
+    //_printHelp();
+
+}
+
+CubeTGApp::~CubeTGApp()
+{
+
+}
+
+void CubeTGApp::render()
+{
+    glViewport(0, 0, _width, _height);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    //_torus->render();
+
+    // projection transform 
+    float fov = 35 * M_PI / 180.0f;
+    glm::mat4 pMat = glm::perspective(fov, _aspect, 1.0f, 100.0f);
+
+    // view transform
+    glm::vec3 eye(8, 8, 8);
+    glm::vec3 center(0, 0, 0);
+    glm::vec3 up(0, 0, 1);
+    glm::mat4 vMat = glm::lookAt(eye, center, up);
+
+    // render plane
+    _plane->render(vMat, pMat);
+    
+
+    // render axis
+    if (_showAxis) {
+        _axis->render(vMat, pMat);
+    }
+
+}
+
+void CubeTGApp::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    // call base class method
+    RenderApp::keyCallback(window, key, scancode, action, mods);
+}
+
+void CubeTGApp::step()
+{
+
+}
