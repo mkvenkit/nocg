@@ -27,7 +27,7 @@ void main()
 
 	// diffuse 
     float diff = max(dot(N, L), 0.0);
-	vec3 Ka = vec3(1.0, 0.0, 0.0); //texCol;
+	vec3 Ka = texCol; //vec3(1.0, 0.0, 0.0); //texCol;
 	float Ia = 0.5;
 	vec3 cdiff = diff*Ka*Ia;
 
@@ -39,23 +39,10 @@ void main()
 	float spec = pow(max(dot(R, V), 0.0), a);
 	vec3 cspec = spec*Ks*Is;
 
-	// rim light 
-	vec3 crim = vec3(0.0);
-
-	if (enableRimLight) {
-		float rim = (1.0 - dot(N, V));
-		rim = smoothstep(0.0, 1.0, rim);
-		float rim_exp = 3.5;
-		rim = pow(rim, rim_exp);
-		vec3 rim_col = vec3(0.1, 0.1, 0.1);
-		crim = rim * rim_col;
-	}
-
-
 	// final color 
-	color = vec4(camb + cdiff + cspec + crim, 1.0);
+	color = vec4(camb + cdiff + cspec, 1.0);
 
-    color = vec4(1.0, 0.0, 0.0, 1.0);
+    //color = vec4(1.0, 0.0, 0.0, 1.0);
 }
 
 

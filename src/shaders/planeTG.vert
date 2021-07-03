@@ -24,7 +24,7 @@ void main()
 	vs_out.N = (nMat* vec4(aNorm, 1.0)).xyz;
 	
 	// diffuse 
-	vec3 lightPos = vec3(0.0, 0.0, 10.0);
+	vec3 lightPos = vec3(10.0, 10.0, 10.0);
     vs_out.L = lightPos - wcVert;
 
 	// specular 
