@@ -60,7 +60,7 @@ void PlaneTG::render(const glm::mat4& vMat, const glm::mat4& pMat)
     glBindVertexArray(_vao);
 
     // draw 
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, _vertexCount);
+    glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, _vertexCount);
 
     glBindVertexArray(0);
     glUseProgram(0);

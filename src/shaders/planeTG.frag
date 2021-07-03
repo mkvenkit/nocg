@@ -42,7 +42,7 @@ void main()
 	// final color 
 	color = vec4(camb + cdiff + cspec, 1.0);
 
-    //color = vec4(1.0, 0.0, 0.0, 1.0);
+    color = vec4(1.0, 0.0, 0.0, 1.0);
 }
 
 
