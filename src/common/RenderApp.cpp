@@ -26,6 +26,18 @@ void RenderApp::keyCallback(GLFWwindow* window, int key, int scancode, int actio
         glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
 
+// override as needed
+void RenderApp::mouseBtnCallback(GLFWwindow* window, int button, int action, int mods)
+{
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+        double xpos, ypos;
+        glfwGetCursorPos(window, &xpos, &ypos);
+
+        cout << xpos << "," << ypos << endl;
+    }
+}
+
+
 RenderApp::RenderApp(int width, int height, const string& appName)
     :_width(width), _height(height), _appName(appName)
 {
@@ -118,6 +130,13 @@ void RenderApp::_glfwInit()
     // set callback
     glfwSetWindowUserPointer(_window, this);
     glfwSetKeyCallback(_window, keyCallback);
+
+    // define a lambda for mouse click callback
+    auto mouseBtnCallback = [](GLFWwindow* window, int button, int action, int mods) {
+        auto me = (RenderApp*)glfwGetWindowUserPointer(window);
+        me->mouseBtnCallback(window, button, action, mods);
+    };
+    glfwSetMouseButtonCallback(_window, mouseBtnCallback);
 
     glfwMakeContextCurrent(_window);
     gladLoadGL();

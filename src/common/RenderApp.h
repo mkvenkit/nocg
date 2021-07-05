@@ -21,6 +21,9 @@ public:
     // override as needed 
     virtual void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
+    // override as needed
+    virtual void mouseBtnCallback(GLFWwindow* window, int button, int action, int mods);
+
     // override this in derived class
     virtual void render();
 
