@@ -4,6 +4,7 @@
 
 #include <glm/common.hpp>
 #include <glm/matrix.hpp>
+#include <glm/gtx/transform.hpp>
 
 #include <math.h>
 #include <iostream>
@@ -12,8 +13,11 @@
 
 #include "PlaneTG.h"
 
-
 using namespace nocg;
+using glm::vec3;
+using glm::mat4;
+using std::cout;
+using std::endl;
 
 PlaneTG::PlaneTG(const vec2& dims)
     :_dims(dims)
@@ -32,6 +36,35 @@ PlaneTG::PlaneTG(const vec2& dims)
 PlaneTG::~PlaneTG()
 {
 
+}
+
+// hit test 
+void PlaneTG::hitTest(double x, double y, 
+    const glm::mat4& vMat, const glm::mat4& pMat, const glm::vec4& viewport)
+{
+    // unproject mouse (x, y) and find starting and ending points 
+    // or ray passing through the 3D model
+    mat4 mvMat = mvMat * _modelMat;
+    vec3 p1 = glm::unProject(vec3(x, y, 0.0f), mvMat, pMat, viewport);
+    vec3 p2 = glm::unProject(vec3(x, y, 1.0f), mvMat, pMat, viewport);
+
+    GLuint ssbo;
+    glGenBuffers(1, &ssbo);
+    glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
+    float color[] = {1.f, 1.f, 0.f};
+    glBufferData(GL_SHADER_STORAGE_BUFFER, 3*sizeof(float), color, GL_DYNAMIC_COPY);
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, ssbo);
+    glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+    // render
+    render(vMat, pMat);
+
+    //GLuint buffer; // handle to buffer
+    //std::vector<float> storage(n); // n is the size  
+    //glGetNamedBufferSubData(buffer, 0, n * sizeof(float), storage.data());
+    glGetNamedBufferSubData(ssbo, 0, 3 * sizeof(float), color);
+
+    cout << color[0] << "," << color[1] << "," << color[2] << endl;
 }
 
 void PlaneTG::render(const glm::mat4& vMat, const glm::mat4& pMat)

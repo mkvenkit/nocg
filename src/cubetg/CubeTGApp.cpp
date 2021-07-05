@@ -3,6 +3,8 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+using std::cout;
+using std::endl;
 
 #include "nocg_common.h"
 #include "PlaneTG.h"
@@ -28,6 +30,20 @@ CubeTGApp::~CubeTGApp()
 
 }
 
+// override as needed
+void CubeTGApp::mouseBtnCallback(GLFWwindow* window, int button, int action, int mods)
+{
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+        double xpos, ypos;
+        glfwGetCursorPos(window, &xpos, &ypos);
+
+        cout << xpos << "," << ypos << endl;
+
+        glm::vec4 viewport(0.f, 0.f, (float)_width, (float)_height);
+        _plane->hitTest(xpos, (double)_height - ypos, _vMat, _pMat, viewport);
+    }
+}
+
 void CubeTGApp::render()
 {
     glViewport(0, 0, _width, _height);
@@ -37,21 +53,21 @@ void CubeTGApp::render()
 
     // projection transform 
     float fov = 35 * M_PI / 180.0f;
-    glm::mat4 pMat = glm::perspective(fov, _aspect, 1.0f, 100.0f);
+    _pMat = glm::perspective(fov, _aspect, 1.0f, 100.0f);
 
     // view transform
     glm::vec3 eye(8, 8, 8);
     glm::vec3 center(0, 0, 0);
     glm::vec3 up(0, 0, 1);
-    glm::mat4 vMat = glm::lookAt(eye, center, up);
+    _vMat = glm::lookAt(eye, center, up);
 
     // render plane
-    _plane->render(vMat, pMat);
+    _plane->render(_vMat, _pMat);
     
 
     // render axis
     if (_showAxis) {
-        _axis->render(vMat, pMat);
+        _axis->render(_vMat, _pMat);
     }
 
 }

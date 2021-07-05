@@ -1,6 +1,9 @@
 #pragma once
 
 #include <string>
+#include <glm/common.hpp>
+#include <glm/matrix.hpp>
+
 using std::string;
 
 struct GLFWwindow;
@@ -43,6 +46,11 @@ protected:
         _tsInterval = tsInterval;
     }
 
+    // projecttion matrix
+    glm::mat4 _pMat;
+    // vuiew matrix 
+    glm::mat4 _vMat;
+
 private:
 
     //
@@ -69,7 +77,6 @@ private:
     float _lastStep = 0.0;
 
     GLFWwindow* _window = 0;
-
 };
 
 } // namespace nocg

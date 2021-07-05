@@ -12,6 +12,11 @@ in VS_OUT {
 
 out vec4 color;
 
+vec3 getColor()
+{
+    return clamp(noise3(100.0), 0, 1);
+}
+
 void main()
 {
 	// normalise vectors
@@ -27,7 +32,7 @@ void main()
 
 	// diffuse 
     float diff = max(dot(N, L), 0.0);
-	vec3 Ka = texCol; //vec3(1.0, 0.0, 0.0); //texCol;
+	vec3 Ka = texCol; //getColor();
 	float Ia = 0.5;
 	vec3 cdiff = diff*Ka*Ia;
 
@@ -42,7 +47,7 @@ void main()
 	// final color 
 	color = vec4(camb + cdiff + cspec, 1.0);
 
-    color = vec4(1.0, 0.0, 0.0, 1.0);
+    //color = vec4(1.0, 0.0, 0.0, 1.0);
 }
 
 

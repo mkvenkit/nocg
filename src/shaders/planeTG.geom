@@ -1,7 +1,7 @@
 #version 450 core
 
 layout (lines_adjacency) in;
-layout (line_strip, max_vertices = 5) out;
+layout (triangle_strip, max_vertices = 5) out;
 
 uniform mat4 vMat;
 uniform mat4 pMat;
@@ -23,10 +23,18 @@ out VS_OUT {
 	vec2 tc;
 } gs_out;
 
+layout(std430, binding = 2) buffer ColorSSBO {
+    vec3 colssbo;
+};
+
+
 void main()
 {
     vec4 center = vec4(0.0);
     vec3 norm = vec3(0.0);
+
+    const uint ind[5] = uint[5](0, 1, 2, 3, 4);
+
 
     for (int i = 0; i < gl_in.length(); i++) {
         gl_Position = gl_in[i].gl_Position;
@@ -41,11 +49,13 @@ void main()
     }
 
     center = 0.25*center;
-    norm = 0.25*norm;
+    norm = 0.5*norm;
 
     float dist = 1;
     gl_Position = vec4(center.xyz + dist*norm, center.w);
     EmitVertex();
 
     EndPrimitive();
+
+    colssbo = vec3(0.1, 0.2, 0.3);
 }
