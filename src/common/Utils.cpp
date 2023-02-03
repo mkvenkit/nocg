@@ -17,6 +17,7 @@
 #include <iostream>
 #include <map>
 #include <cctype>
+#include <cstdlib>
 
 using std::string;
 using std::vector;
@@ -35,31 +36,25 @@ namespace fs = std::filesystem;
 
 namespace nocg {
 
+// Get environment variable @var
 static bool getenv(const string& var, string& value)
 {
     char* envvar;
     size_t requiredSize;
 
-    getenv_s(&requiredSize, NULL, 0, var.c_str());
+    envvar = std::getenv(var.c_str());
+    if(envvar) {
+        requiredSize = (size_t)std::strlen(envvar);
+    } else {
+        return false;
+    }
     if (requiredSize == 0)
     {
         cout << var << "not set!" << endl;
         return false;
     }
 
-    envvar = new char[requiredSize];
-    if (!envvar)
-    {
-        printf("Failed to allocate memory!\n");
-        return false;
-    }
-
-    // get the value of the env variable
-    getenv_s(&requiredSize, envvar, requiredSize, var.c_str());
-
     value = string(envvar);
-
-    delete[] envvar;
 
     return true;
 }

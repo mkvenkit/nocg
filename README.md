@@ -18,6 +18,23 @@ This will create *nocg.sln* which you can load using Visual Studio. To run the t
 
 I have not tested the build with any other OS, but Linux support is coming soon.
 
+### MacOS
+
+Install homebrew. Clone this repo, create a *build* directory, cd into it from a terminal and type:
+
+```
+cmake ..
+```
+
+This will create your Makefile, which you can then run `make` to build.
+
+NOTE: You may need to `brew install glfw glm`, and then set the following environment variables before running `make`
+
+```
+export CPATH=/opt/homebrew/include
+export LIBRARY_PATH=/opt/homebrew/lib
+```
+
 ## Examples 
 
 | **Name** | **Description**|

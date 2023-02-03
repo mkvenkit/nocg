@@ -23,7 +23,7 @@ add_library(nocg_common
 add_library(glad 
     external/glad/src/glad.c)
 
-set(COMMON_LIBS nocg_common glad glfw3 ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES})
+set(COMMON_LIBS nocg_common glad glfw ${GLFW_LIBRARIES} ${OPENGL_LIBRARIES})
 
 # torus
 add_executable(torus 
